@@ -185,4 +185,4 @@ La incorporación de cultivos y rangos de humedad específicos para cada tipo de
 ### 6. SALIR
 
 1. Confirmar salida
-2. Volver al menú principal
+2. Volver al menú principal.
