@@ -1,6 +1,6 @@
 import funciones
 
 def main():
-    print('hola')
+    funciones.menuPrincipal()
 
 main()
