@@ -27,16 +27,15 @@ def menuPrincipal():
 
     try: 
         n = int(input('\n Ingrese una opción: '))
+        while n>6 or n<1:
+            n=int(input('ingrese una opcion valida: '))
         SubOpciones(n)
-
     except ValueError:
         print(' ERROR: Ocurrió un error en el programa')
 
 
 def SubOpciones(n):
-
     if n == 1:
-
         print('\n╔══════════════════════════════════════╗')
         print('║        🌾 GESTIÓN DE SECTORES        ║')
         print('╠══════════════════════════════════════╣')
@@ -45,15 +44,13 @@ def SubOpciones(n):
         print('║  3. Mostrar todos los sectores       ║')
         print('║  4. Volver al menú principal         ║')
         print('╚══════════════════════════════════════╝')
-
         num = int(input('\n Ingrese una opción: '))
-
-        while num != 4:
-            pass
-
+        while num>4 or num<1:
+            num=int(input('ingrese una opcion valida: '))
+        if num==4:
+            menuPrincipal()
 
     elif n == 2:
-
         print('\n╔══════════════════════════════════════╗')
         print('║       💧 GESTIÓN DE MEDICIONES       ║')
         print('╠══════════════════════════════════════╣')
@@ -61,15 +58,13 @@ def SubOpciones(n):
         print('║  2. Consultar medición de un sector  ║')
         print('║  3. Volver al menú principal         ║')
         print('╚══════════════════════════════════════╝')
-
         num = int(input('\n Ingrese una opción: '))
-
-        while num != 3:
-            pass
-
+        while num>3 or num<1:
+            num=int(input('ingrese una opcion valida: '))
+        if num==3:
+            menuPrincipal()
 
     elif n == 3:
-
         print('\n╔══════════════════════════════════════╗')
         print('║             🔎 CONSULTAS             ║')
         print('╠══════════════════════════════════════╣')
@@ -78,15 +73,13 @@ def SubOpciones(n):
         print('║  3. Consultar estado de humedad      ║')
         print('║  4. Volver al menú principal         ║')
         print('╚══════════════════════════════════════╝')
-
         num = int(input('\n Ingrese una opción: '))
-
-        while num != 4:
-            pass
-
+        while num>4 or num<1:
+            num=int(input('ingrese una opcion valida: '))
+        if num==4:
+            menuPrincipal()
 
     elif n == 4:
-
         print('\n╔══════════════════════════════════════╗')
         print('║        💧 ANÁLISIS DE HUMEDAD        ║')
         print('╠══════════════════════════════════════╣')
@@ -99,14 +92,13 @@ def SubOpciones(n):
         print('║  7. Sectores que requieren atención  ║')
         print('║  8. Volver al menú principal         ║')
         print('╚══════════════════════════════════════╝')
-
         num = int(input('\n Ingrese una opción: '))
-
-        while num != 8:
-            pass
+        while num>8 or num<1:
+            num=int(input('ingrese una opcion valida: '))
+        if num==8:
+            menuPrincipal()
 
     elif n == 5:  
-
         print('\n╔══════════════════════════════════════╗')
         print('║             📄 INFORMES              ║')
         print('╠══════════════════════════════════════╣')
@@ -117,21 +109,25 @@ def SubOpciones(n):
         print('║  5. Ranking mensual de humedad       ║')
         print('║  6. Volver al menú principal         ║')
         print('╚══════════════════════════════════════╝')
-
         num = int(input('\n Ingrese una opción: '))
-
-        while num != 6:
-            pass
-
+        while num>6 or num<1:
+            num=int(input('ingrese una opcion valida: '))
+        if num==6:
+            menuPrincipal()
 
     else:
-
         print('\n╔══════════════════════════════════════╗')
         print('║             🚪 SALIR                 ║')
         print('╠══════════════════════════════════════╣')
         print('║  1. Confirmar salida                 ║')
         print('║  2. Volver al menú principal         ║')
         print('╚══════════════════════════════════════╝')
-
         num = int(input('\n Ingrese una opción: '))
+        while num>2 or num<1:
+            num=int(input('ingrese una opcion valida: '))
+        if num==2:
+            menuPrincipal()
+        elif num==1:
+            print('¡Gracias!')
+
 
