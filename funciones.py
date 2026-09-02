@@ -4,7 +4,11 @@ lolo: 1 y 2
 lucas: 3 y 2 del 4 (Calcular promedio de un sector y Calcular promedio de un mes)
 mati: 4
 """
-
+import opciones.informes
+import opciones.analisisHumedad
+import opciones.consultas
+import opciones.gestionMediciones
+import opciones.gestionSectores
 
 
 
