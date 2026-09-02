@@ -1,3 +1,12 @@
+""" 
+Gael: 5
+lolo: 1 y 2
+lucas: 3 y 2 del 4 (Calcular promedio de un sector y Calcular promedio de un mes)
+mati: 4
+"""
+
+
+
 
 def menuPrincipal():
 
@@ -92,8 +101,7 @@ def SubOpciones(n):
         while num != 8:
             pass
 
-
-    elif n == 5:
+    elif n == 5:  
 
         print('\n╔══════════════════════════════════════╗')
         print('║             📄 INFORMES              ║')

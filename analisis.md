@@ -1,30 +1,57 @@
-# Alcance del proyecto
+Alcance del proyecto
 
-El proyecto consiste en desarrollar un sistema para registrar, consultar y analizar mediciones de humedad de distintos sectores de un campo, utilizando una matriz para almacenar los valores correspondientes a cada sector y mes.
+El proyecto consiste en desarrollar un sistema para registrar, consultar y analizar mediciones de humedad correspondientes a distintos sectores de un campo. El sistema utilizará una matriz para almacenar los valores de humedad registrados para cada sector y cada mes del año.
 
-El sistema permitirá registrar sectores del campo. Cada sector estará identificado mediante un ID único, compuesto por tres dígitos numéricos y una abreviación que permita identificarlo. Por ejemplo: 123-PAP. El sistema tendrá una cantidad máxima de sectores definida, y cada ID deberá ser único.
+El sistema permitirá registrar hasta un máximo de 50 sectores. Cada sector estará identificado mediante un ID único. En esta primera etapa, el único dato almacenado para identificar un sector será su ID.
 
-Por el momento, el tipo de cultivo no formará parte del sistema, ya que la clasificación de humedad utilizará valores generales. La incorporación del cultivo y de rangos específicos según cada tipo de plantación podrá considerarse en una etapa posterior.
+Identificación de los sectores
+
+Cada sector tendrá un ID único compuesto por:
+
+Tres dígitos numéricos.
+Un guion.
+Tres letras correspondientes a una abreviación identificatoria.
+
+Por ejemplo:
+
+123-PAP
+
+La abreviación deberá estar compuesta por exactamente tres letras y se almacenará en mayúsculas. El sistema validará que el ID cumpla con este formato y que no se encuentre registrado previamente.
+
+El usuario podrá continuar registrando sectores mientras no se haya alcanzado el límite máximo de 50 sectores. Para finalizar la carga de sectores podrá ingresar -1.
+
+En esta primera etapa no se almacenará información relacionada con el tipo de cultivo. La clasificación de humedad utilizará valores generales para todos los sectores. La incorporación del cultivo y de rangos específicos según cada tipo de plantación podrá considerarse en una etapa posterior.
 
 Organización de las mediciones
 
-Las mediciones de humedad se almacenarán en una matriz donde:
+Las mediciones de humedad se almacenarán en una matriz numérica donde:
 
 Las filas representan los sectores del campo.
 Las columnas representan los meses del año.
 Cada posición de la matriz representa el porcentaje de humedad registrado para un determinado sector durante un determinado mes.
 
-Por ejemplo:
+La relación será:
 
 matriz[sector][mes] → porcentaje de humedad
 
-El usuario podrá cargar las mediciones correspondientes a los meses del año. Si un sector todavía no posee una medición para determinado mes, dicha posición se considerará sin medición y no será utilizada para realizar los cálculos correspondientes.
+Los meses del año serán representados mediante una tupla, conteniendo los doce meses:
 
-El sistema permitirá que existan meses sin mediciones. En estos casos, los cálculos se realizarán únicamente sobre los datos disponibles. Si no existen mediciones suficientes para realizar un determinado cálculo, el sistema informará que no hay datos disponibles.
+("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
+
+Para representar la ausencia de una medición se utilizará el valor -1, ya que el valor 0 representa una medición válida de humedad.
+
+Por lo tanto:
+
+-1 → sin medición.
+0 a 100 → porcentaje de humedad registrado.
+
+El sistema permitirá que existan sectores o meses sin mediciones. Las posiciones con valor -1 no serán consideradas para realizar cálculos.
+
+Si no existen mediciones suficientes para realizar un determinado cálculo, el sistema informará que no hay datos disponibles y permitirá continuar utilizando el programa.
 
 Carga y actualización de mediciones
 
-El usuario podrá ingresar una medición indicando:
+El usuario podrá cargar o actualizar una medición indicando:
 
 ID del sector.
 Mes correspondiente.
@@ -32,9 +59,16 @@ Porcentaje de humedad.
 
 El porcentaje de humedad deberá ser un valor numérico comprendido entre 0 % y 100 %.
 
-Si ya existe una medición para el sector y mes seleccionados, el sistema permitirá reemplazar el valor anterior por el nuevo valor ingresado.
+Antes de registrar la medición, el sistema validará que:
 
-También se validará que el sector exista y que el mes seleccionado sea válido.
+El sector exista.
+El mes seleccionado sea válido.
+El porcentaje de humedad se encuentre entre 0 % y 100 %.
+Los campos obligatorios no estén vacíos.
+
+Si el sector y el mes seleccionados ya poseen una medición, el sistema permitirá reemplazar el valor anterior por el nuevo valor ingresado.
+
+Si se intenta actualizar una medición que no existe, el sistema informará al usuario y permitirá continuar. En ese caso, la medición podrá registrarse como una nueva medición si corresponde a un sector y mes válidos.
 
 Clasificación de la humedad
 
@@ -48,7 +82,16 @@ Porcentaje de humedad	Estado
 
 A partir de esta clasificación, el sistema podrá determinar el estado de humedad de cada sector para un mes determinado.
 
-Los sectores con humedad crítica serán considerados sectores que necesitan riego, mientras que los sectores con humedad baja requerirán atención. Los sectores con humedad adecuada se encontrarán en una situación normal y los sectores con humedad excesiva serán identificados como posibles casos de exceso de agua.
+Los sectores se considerarán de la siguiente manera:
+
+Crítico: sector que necesita riego.
+Bajo: sector que requiere atención.
+Adecuado: sector en una situación normal.
+Excesivo: posible exceso de agua.
+
+Los estados crítico y bajo serán considerados sectores que requieren atención y aparecerán en los informes correspondientes.
+
+El estado excesivo será mostrado como parte de la clasificación de humedad, pero no será considerado dentro de los sectores que requieren atención en esta primera etapa.
 
 Procesamiento y análisis de los datos
 
@@ -56,11 +99,19 @@ El sistema permitirá realizar diferentes cálculos sobre las mediciones almacen
 
 Se podrá obtener:
 
-Promedio de humedad de un sector, considerando todas las mediciones disponibles de ese sector.
+Promedio de humedad de un sector, considerando todas las mediciones disponibles de dicho sector.
 Promedio de humedad del campo para un mes determinado, considerando las mediciones disponibles de todos los sectores.
 Promedio general de humedad del campo, considerando todas las mediciones registradas.
 Mayor medición de humedad registrada.
 Menor medición de humedad registrada.
+
+En el caso de obtener la mayor o menor medición, el sistema informará:
+
+Porcentaje de humedad.
+Sector al que corresponde.
+Mes en el que fue registrada.
+
+Si existen varias mediciones que coinciden con el valor máximo o mínimo, el sistema contemplará todas las mediciones correspondientes e indicará cada sector y mes involucrado.
 
 Cuando no existan mediciones para realizar alguno de estos cálculos, el sistema informará que no existen datos disponibles.
 
@@ -71,55 +122,132 @@ Cantidad de sectores en estado bajo.
 Cantidad de sectores en estado adecuado.
 Cantidad de sectores en estado excesivo.
 
-También se podrá generar un informe de los sectores que requieren atención, identificando aquellos cuya humedad se encuentre en estado crítico o bajo durante el mes seleccionado.
+También se podrá generar un listado de los sectores que requieren atención. Este listado incluirá únicamente aquellos cuya humedad se encuentre en estado crítico o bajo durante el mes seleccionado.
 
 Ranking de sectores
 
 El sistema permitirá generar, para un mes determinado, un ranking de los sectores ordenados según su porcentaje de humedad, desde el menor hasta el mayor.
 
-De esta manera, los primeros sectores del ranking serán los más secos y los últimos serán los más húmedos.
+De esta manera:
 
-El ranking se realizará únicamente considerando los sectores que tengan una medición registrada para el mes seleccionado.
+Los primeros sectores del ranking serán los más secos.
+Los últimos sectores serán los más húmedos.
 
-Búsqueda de sectores
+El ranking se realizará únicamente considerando los sectores que tengan una medición registrada para el mes seleccionado, es decir, aquellos cuya posición correspondiente en la matriz sea diferente de -1.
+
+Para realizar el ordenamiento se utilizará lambda como criterio de ordenamiento, tomando como referencia el porcentaje de humedad de cada sector.
+
+También se utilizarán otras herramientas requeridas para el desarrollo del proyecto, como:
+
+Comprensión de listas: para obtener sectores que cumplan determinadas condiciones, por ejemplo, sectores en estado crítico o bajo.
+Slicing: para validar o separar partes del ID, como los tres dígitos y las tres letras de un ID con formato 123-PAP.
+
+Estas herramientas serán utilizadas dentro de las funcionalidades existentes, sin necesidad de agregar nuevas funcionalidades al sistema.
+
+Búsqueda y consulta de sectores
 
 El usuario podrá buscar un sector mediante su ID.
 
-Si el ID existe, el sistema mostrará la información correspondiente al sector, incluyendo sus mediciones registradas y los cálculos que puedan realizarse con ellas.
+La opción Buscar sector por ID tendrá como finalidad localizar un sector y verificar si se encuentra registrado en el sistema.
+
+Si el ID existe, el sistema informará que el sector se encuentra registrado.
 
 Si el ID no existe, el sistema informará al usuario y permitirá realizar una nueva búsqueda.
 
+Por otra parte, la opción Consultar un sector permitirá consultar información más detallada del sector seleccionado, incluyendo sus mediciones registradas, el estado de humedad correspondiente y los cálculos que puedan realizarse con sus datos.
+
+De esta manera, la búsqueda y la consulta tendrán finalidades diferentes y no representarán la misma funcionalidad.
+
 Informes
 
-El sistema contará con al menos los siguientes informes:
+El sistema contará con los siguientes informes:
 
-Informe general del campo: mostrará información general sobre las mediciones registradas y los valores calculados.
-Informe de un sector: mostrará las mediciones y el promedio correspondiente a un sector seleccionado.
-Informe mensual: mostrará las mediciones y el promedio de humedad del campo para un mes determinado.
-Informe de sectores que requieren atención: mostrará los sectores que se encuentren en estado crítico o bajo durante un mes seleccionado.
-Ranking mensual de humedad: mostrará los sectores ordenados desde el menor hasta el mayor porcentaje de humedad.
+Informe general del campo
+
+Mostrará información general sobre el estado de los datos registrados, incluyendo:
+
+Cantidad de sectores registrados.
+Cantidad de mediciones cargadas.
+Promedio general de humedad.
+Mayor medición registrada, indicando sector y mes.
+Menor medición registrada, indicando sector y mes.
+Informe de un sector
+
+Mostrará información correspondiente a un sector seleccionado, incluyendo:
+
+ID del sector.
+Mediciones registradas.
+Meses que poseen mediciones.
+Promedio de humedad del sector.
+Estado de humedad de sus mediciones.
+Informe mensual
+
+Mostrará información correspondiente a un mes seleccionado, incluyendo:
+
+Mediciones registradas de los sectores.
+Promedio de humedad del campo para ese mes.
+Estado de humedad de los sectores.
+Informe de sectores que requieren atención
+
+Mostrará los sectores que, durante un mes seleccionado, presenten un estado:
+
+Crítico.
+Bajo.
+
+Los sectores con estado excesivo no serán incluidos en este informe, ya que en esta etapa serán considerados únicamente dentro de la clasificación general de humedad.
+
+Ranking mensual de humedad
+
+Mostrará los sectores que poseen una medición para el mes seleccionado, ordenados desde el menor hasta el mayor porcentaje de humedad.
+
 Menú y validaciones
 
 El sistema contará con un menú principal que permanecerá activo hasta que el usuario seleccione la opción de salida.
 
-Desde el menú se podrá acceder a las distintas funcionalidades del sistema, como carga, actualización, búsqueda, cálculos, clasificación, generación de informes y ranking.
+Desde el menú se podrá acceder a las distintas funcionalidades del sistema:
 
-Se realizarán validaciones para evitar que datos incorrectos provoquen la finalización del programa. Entre ellas:
+Gestión de sectores.
+Gestión de mediciones.
+Consultas.
+Análisis de humedad.
+Informes.
+Salida del sistema.
+
+Se realizarán validaciones para evitar que datos incorrectos provoquen la finalización del programa.
+
+Entre ellas:
 
 Validación de opciones del menú.
+Validación de campos obligatorios.
+Control de campos vacíos.
 Validación del formato del ID.
+Validación de tres dígitos, guion y tres letras en el ID.
+Normalización de las letras del ID a mayúsculas.
 Control de IDs repetidos.
 Control de IDs inexistentes.
+Validación de la cantidad máxima de 50 sectores.
 Validación de meses.
 Validación de valores numéricos.
 Validación del porcentaje de humedad entre 0 % y 100 %.
 Control de sectores sin mediciones.
 Control de meses sin mediciones.
+Control de actualización de mediciones inexistentes.
+
+Ante cualquier dato inválido, el sistema mostrará un mensaje indicando el error y permitirá al usuario continuar utilizando el programa sin finalizar su ejecución.
+
 Datos y estructuras utilizadas
 
-La información del sistema será administrada mediante listas, matrices, tuplas y cadenas de caracteres, de acuerdo con las necesidades de cada funcionalidad.
+La información del sistema será administrada mediante listas, matrices, tuplas y cadenas de caracteres, asignando cada estructura a la información que corresponda.
 
-La matriz será utilizada principalmente para relacionar sectores, meses y porcentajes de humedad, mientras que las demás estructuras permitirán almacenar y organizar información necesaria para las búsquedas, cálculos e informes.
+Las estructuras utilizadas serán:
+
+Lista homogénea: almacenará los IDs de los sectores registrados.
+Tupla: almacenará los doce meses del año.
+Matriz numérica: almacenará los porcentajes de humedad de cada sector para cada mes. El valor -1 representará la ausencia de medición.
+Cadenas de caracteres: se utilizarán para almacenar y manipular los IDs, mensajes del sistema y estados de humedad.
+Variables numéricas: se utilizarán para porcentajes, promedios, cantidades, máximos y mínimos.
+
+La matriz permitirá relacionar cada sector con sus mediciones mensuales y será la principal estructura utilizada para realizar los cálculos y análisis.
 
 Fuera del alcance
 
@@ -135,54 +263,37 @@ Toda la información será almacenada únicamente en memoria durante la ejecuci�
 
 La incorporación de cultivos y rangos de humedad específicos para cada tipo de cultivo también queda fuera del alcance de esta primera etapa y podrá ser considerada para una segunda etapa del proyecto.
 
-## MENÚ PRINCIPAL - SISTEMA DE CONTROL DE HUMEDAD
-
+## MENÚ PRINCIPAL — SISTEMA DE CONTROL DE HUMEDAD
 ### 1. GESTIÓN DE SECTORES
-
-1. Dar de alta un sector
-2. Buscar sector por ID
-3. Mostrar todos los sectores
-4. Volver al menú principal
-
-
+    Dar de alta un sector
+    Buscar sector por ID
+    Mostrar todos los sectores
+    Volver al menú principal
 ### 2. GESTIÓN DE MEDICIONES
-
-1. Cargar/actualizar medición
-2. Consultar medición de un sector
-3. Volver al menú principal
-
-
+    Cargar / actualizar medición
+    Consultar medición de un sector
+    Volver al menú principal
 ### 3. CONSULTAS
-
-1. Consultar un sector
-2. Consultar mediciones de un mes
-3. Consultar estado de humedad de un sector
-4. Volver al menú principal
-
-
+    Consultar un sector
+    Consultar mediciones de un mes
+    Consultar estado de humedad de un sector
+    Volver al menú principal
 ### 4. ANÁLISIS DE HUMEDAD
-
-1. Calcular promedio de un sector
-2. Calcular promedio de un mes
-3. Calcular promedio general del campo
-4. Obtener mayor medición registrada
-5. Obtener menor medición registrada
-6. Contabilizar sectores según estado de humedad
-7. Mostrar sectores que requieren atención
-8. Volver al menú principal
-
-
+    Calcular promedio de un sector
+    Calcular promedio de un mes
+    Calcular promedio general del campo
+    Obtener mayor medición registrada
+    Obtener menor medición registrada
+    Contabilizar sectores según estado de humedad
+    Mostrar sectores que requieren atención
+    Volver al menú principal
 ### 5. INFORMES
-
-1. Informe general del campo
-2. Informe de un sector
-3. Informe mensual
-4. Informe de sectores que requieren atención
-5. Ranking mensual de humedad
-6. Volver al menú principal
-
-
+    Informe general del campo
+    Informe de un sector
+    Informe mensual
+    Informe de sectores que requieren atención
+    Ranking mensual de humedad
+    Volver al menú principal
 ### 6. SALIR
-
-1. Confirmar salida
-2. Volver al menú principal.
+    Confirmar salida
+    Volver al menú principal
