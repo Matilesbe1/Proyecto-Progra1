@@ -1,3 +1,35 @@
+def promedio_sector(sectores, matriz):
+    sector = input("Indique el ID del sector: ").upper()
+    while sector not in sectores:
+        print("No es un sector valido")
+        sector = input("Indique el ID del sector: ").upper()
+
+    indice = sectores.index(sector)
+    mediciones = [c for c in matriz[indice] if c != -1]
+    cantidad = len(mediciones)
+    if cantidad == 0:
+        print("La cantidad de mediciones es de 0")
+        return None
+    suma = sum(mediciones)
+    promedio = suma / cantidad
+    return promedio
+
+def promedio_mes(matriz):
+    mes = int(input("Indique el numero de mes: "))
+    while mes < 1 or mes > 12:
+        print("Ingrese un numero valido")
+        mes = int(input("Indique el numero de mes: "))
+    mes -= 1 
+
+    mediciones = [c[mes] for c in matriz if c[mes] != -1]
+    cantidad = len(mediciones)
+    if cantidad == 0:
+        print("La cantidad de mediciones es de 0")
+        return None
+    suma = sum(mediciones)
+    promedio = suma/cantidad
+    return promedio
+
 def calcularPromedioGeneral(sectores):
     cant=len(sectores)
     suma=0
