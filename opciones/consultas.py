@@ -1,3 +1,12 @@
+def llamarfunciones(lst_codigos, matriz, num):
+    if num == 1:
+        consultar_sector(lst_codigos, matriz)
+    elif num == 2:
+        consultar_mediciones_mes(matriz)
+    else:
+        consultar_estado_humedad(lst_codigos, matriz)
+
+
 def consultar_sector(sectores, matriz):
     sector = input("Ingrese el ID del sector a consultar: ").upper()
     while sector not in sectores:
