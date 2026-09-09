@@ -60,17 +60,6 @@ def busca_id(lst_codigos):
     return None
 
 
-def main():
-
-    matriz = []
-    lst_codigos = ["100-BUE","101-TDF","102-COR","103-NQN","104-JUJ","105-SJN"]
-    '''alta_sector(lst_codigos,matriz)
-    print(lst_codigos)
-    print(len(matriz))'''
-    busca_id(lst_codigos)
-
-
-main()
 
         
         

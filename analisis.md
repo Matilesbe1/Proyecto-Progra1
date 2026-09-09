@@ -271,7 +271,6 @@ La incorporación de cultivos y rangos de humedad específicos para cada tipo de
     Volver al menú principal
 ### 2. GESTIÓN DE MEDICIONES
     Cargar / actualizar medición
-    Consultar medición de un sector
     Volver al menú principal
 ### 3. CONSULTAS
     Consultar un sector
