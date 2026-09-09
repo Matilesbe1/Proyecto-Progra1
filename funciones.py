@@ -12,7 +12,7 @@ import opciones.gestionSectores
 
 
 
-def menuPrincipal(matriz, lst_codigos):
+def menuPrincipal(matriz, lst_codigos,tpl_meses):
 
     print('\n╔══════════════════════════════════════╗')
     print('║        🌱 SISTEMA DE GESTIÓN 🌱      ║')
@@ -29,12 +29,12 @@ def menuPrincipal(matriz, lst_codigos):
         n = int(input('\n Ingrese una opción: '))
         while n>6 or n<1:
             n=int(input('ingrese una opcion valida: '))
-        SubOpciones(n, matriz, lst_codigos)
+        SubOpciones(n, matriz, lst_codigos,tpl_meses)
     except ValueError:
         print(' ERROR: Ocurrió un error en el programa')
 
 
-def SubOpciones(n, matriz, lst_codigos):
+def SubOpciones(n, matriz, lst_codigos,tpl_meses):
     if n == 1:
         print('\n╔══════════════════════════════════════╗')
         print('║        🌾 GESTIÓN DE SECTORES        ║')
@@ -48,7 +48,9 @@ def SubOpciones(n, matriz, lst_codigos):
         while num>4 or num<1:
             num=int(input('ingrese una opcion valida: '))
         if num==4:
-            menuPrincipal(matriz, lst_codigos)
+            menuPrincipal(matriz, lst_codigos,tpl_meses)
+        else:
+            opciones.gestionSectores.llamarFunciones(num,matriz,lst_codigos,tpl_meses)
 
     elif n == 2:
         print('\n╔══════════════════════════════════════╗')
@@ -61,7 +63,9 @@ def SubOpciones(n, matriz, lst_codigos):
         while num>2 or num<1:
             num=int(input('ingrese una opcion valida: '))
         if num==2:
-            menuPrincipal(matriz, lst_codigos)
+            menuPrincipal(matriz, lst_codigos,tpl_meses)
+        else:
+            opciones.gestionMediciones.cargar_medicion(matriz,lst_codigos,tpl_meses)
 
     elif n == 3:
         print('\n╔══════════════════════════════════════╗')
@@ -76,7 +80,7 @@ def SubOpciones(n, matriz, lst_codigos):
         while num>4 or num<1:
             num=int(input('ingrese una opcion valida: '))
         if num==4:
-            menuPrincipal(matriz, lst_codigos)
+            menuPrincipal(matriz, lst_codigos,tpl_meses)
 
     elif n == 4:
         print('\n╔══════════════════════════════════════╗')
@@ -95,7 +99,7 @@ def SubOpciones(n, matriz, lst_codigos):
         while num>8 or num<1:
             num=int(input('ingrese una opcion valida: '))
         if num==8:
-            menuPrincipal(matriz, lst_codigos)
+            menuPrincipal(matriz, lst_codigos,tpl_meses)
         else:
             opciones.analisisHumedad.llamarFunciones(num, matriz, lst_codigos)
 
@@ -114,7 +118,7 @@ def SubOpciones(n, matriz, lst_codigos):
         while num>6 or num<1:
             num=int(input('ingrese una opcion valida: '))
         if num==6:
-            menuPrincipal(matriz, lst_codigos)
+            menuPrincipal(matriz, lst_codigos,tpl_meses)
 
     else:
         print('\n╔══════════════════════════════════════╗')
@@ -127,7 +131,7 @@ def SubOpciones(n, matriz, lst_codigos):
         while num>2 or num<1:
             num=int(input('ingrese una opcion valida: '))
         if num==2:
-            menuPrincipal(matriz, lst_codigos)
+            menuPrincipal(matriz, lst_codigos,tpl_meses)
         elif num==1:
             print('¡Gracias!')
 
