@@ -12,7 +12,7 @@ import opciones.gestionSectores
 
 
 
-def menuPrincipal():
+def menuPrincipal(matriz, lst_codigos):
 
     print('\n╔══════════════════════════════════════╗')
     print('║        🌱 SISTEMA DE GESTIÓN 🌱      ║')
@@ -29,12 +29,12 @@ def menuPrincipal():
         n = int(input('\n Ingrese una opción: '))
         while n>6 or n<1:
             n=int(input('ingrese una opcion valida: '))
-        SubOpciones(n)
+        SubOpciones(n, matriz, lst_codigos)
     except ValueError:
         print(' ERROR: Ocurrió un error en el programa')
 
 
-def SubOpciones(n):
+def SubOpciones(n, matriz, lst_codigos):
     if n == 1:
         print('\n╔══════════════════════════════════════╗')
         print('║        🌾 GESTIÓN DE SECTORES        ║')
@@ -48,21 +48,20 @@ def SubOpciones(n):
         while num>4 or num<1:
             num=int(input('ingrese una opcion valida: '))
         if num==4:
-            menuPrincipal()
+            menuPrincipal(matriz, lst_codigos)
 
     elif n == 2:
         print('\n╔══════════════════════════════════════╗')
         print('║       💧 GESTIÓN DE MEDICIONES       ║')
         print('╠══════════════════════════════════════╣')
         print('║  1. Cargar / actualizar medición     ║')
-        print('║  2. Consultar medición de un sector  ║')
-        print('║  3. Volver al menú principal         ║')
+        print('║  2. Volver al menú principal         ║')
         print('╚══════════════════════════════════════╝')
         num = int(input('\n Ingrese una opción: '))
-        while num>3 or num<1:
+        while num>2 or num<1:
             num=int(input('ingrese una opcion valida: '))
-        if num==3:
-            menuPrincipal()
+        if num==2:
+            menuPrincipal(matriz, lst_codigos)
 
     elif n == 3:
         print('\n╔══════════════════════════════════════╗')
@@ -77,7 +76,7 @@ def SubOpciones(n):
         while num>4 or num<1:
             num=int(input('ingrese una opcion valida: '))
         if num==4:
-            menuPrincipal()
+            menuPrincipal(matriz, lst_codigos)
 
     elif n == 4:
         print('\n╔══════════════════════════════════════╗')
@@ -96,7 +95,9 @@ def SubOpciones(n):
         while num>8 or num<1:
             num=int(input('ingrese una opcion valida: '))
         if num==8:
-            menuPrincipal()
+            menuPrincipal(matriz, lst_codigos)
+        else:
+            opciones.analisisHumedad.llamarFunciones(num, matriz, lst_codigos)
 
     elif n == 5:  
         print('\n╔══════════════════════════════════════╗')
@@ -113,7 +114,7 @@ def SubOpciones(n):
         while num>6 or num<1:
             num=int(input('ingrese una opcion valida: '))
         if num==6:
-            menuPrincipal()
+            menuPrincipal(matriz, lst_codigos)
 
     else:
         print('\n╔══════════════════════════════════════╗')
@@ -126,7 +127,7 @@ def SubOpciones(n):
         while num>2 or num<1:
             num=int(input('ingrese una opcion valida: '))
         if num==2:
-            menuPrincipal()
+            menuPrincipal(matriz, lst_codigos)
         elif num==1:
             print('¡Gracias!')
 

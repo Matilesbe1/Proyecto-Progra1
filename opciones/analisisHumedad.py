@@ -1,48 +1,114 @@
-def calcularPromedioGeneral(sectores):
-    cant=len(sectores)
+def llamarFunciones(num, matriz, lst_codigos):
+    if num==1:
+        promedio_sector(matriz)
+    elif num==2:
+        promedio_mes(matriz)
+    elif num==3:
+        calcularPromedioGeneral(matriz)
+    elif num==4:
+        obtenerMayorMedicion(matriz)
+    elif num==5:
+        obtenerMenorMedicion(matriz)
+    elif num==6:
+        contabilizarSectores(matriz)
+    elif num==7:
+        sectoresAtencion(matriz)
+
+def promedio_sector(sectores, matriz):
+    sector = input("Indique el ID del sector: ").upper()
+    while sector not in sectores:
+        print("No es un sector valido")
+        sector = input("Indique el ID del sector: ").upper()
+
+    indice = matriz.index(sector)
+    mediciones = [c for c in matriz[indice] if c != -1]
+    cantidad = len(mediciones)
+    if cantidad == 0:
+        print("La cantidad de mediciones es de 0")
+        return None
+    suma = sum(mediciones)
+    promedio = suma / cantidad
+    return promedio
+
+def promedio_mes(matriz):
+    mes = int(input("Indique el numero de mes: "))
+    while mes < 1 or mes > 12:
+        print("Ingrese un numero valido")
+        mes = int(input("Indique el numero de mes: "))
+    mes -= 1 
+
+    mediciones = [c[mes] for c in matriz if c[mes] != -1]
+    cantidad = len(mediciones)
+    if cantidad == 0:
+        print("La cantidad de mediciones es de 0")
+        return None
+    suma = sum(mediciones)
+    promedio = suma/cantidad
+    return promedio
+
+def calcularPromedioGeneral(matriz):
+    cant=0
     suma=0
-    for sector in sectores:
-        id, mes, humedad=sector
-        suma+=humedad
+    for i in range (len(matriz)):
+        for j in range (len(matriz[i])):
+            if matriz[i][j]==0:
+                continue
+            else:
+                cant+=1
+                suma+=matriz[i][j]
     promedio=suma/cant
     print(f'el promedio general de humedad de los sectores es: {promedio}')
 
 
-def obtenerMayorMedicion(sectores):
+def obtenerMayorMedicion(matriz):
     max=0
-    for sector in sectores:
-        id, mes, humedad= sector
-        if max<humedad:
-            max=humedad
-        else:
-            continue
-    print(f'el sector con mayor humedad registrada es: ')
+    for i in range (len(matriz)):
+        for j in range (len(matriz[i])):
+            if matriz[i][j]>max:
+                max=matriz[i][j]
+            else:
+                continue
+    print(f'el sector con mayor humedad registrada es: {max}')
     print(f'poner sector completo')
 
-def obtenerMenorMedicion(sectores):
-    min=sectores[0]
-    for sector in sectores:
-        id, mes, humedad=sector
-        if min>humedad:
-            min=humedad
-        else: 
-            continue
-    print(f'el sector con menor medicion registrada es: ')
-    print(f'poner secotr completo')
+def obtenerMenorMedicion(matriz):
+    min=matriz[0][0]
+    for i in range (len(matriz)):
+        for j in range (len(matriz[i])):
+            if matriz[i][j]==0:
+                continue
+            else:
+                if matriz[i][j]<min:
+                    min=matriz[i][j]
+                else:
+                    continue
+    print(f'el sector con menor humedad registrada es: {min}')
+    print(f'poner sector completo')
 
-def contabilizarSectores(sectores):
-    cont=len(sectores)
-    print(f'Hay un total de {cont} sectores')
 
-def sectoresAtencion(sectores):
+def contabilizarSectores(matriz):
+    cant=0
+    for i in range (len(matriz)):
+        for j in range (len(matriz[i])):
+            if matriz[i][j]==0:
+                continue
+            else:
+                cant+=1
+    print(f'{cant} sectores fueron cargados')
+
+
+def sectoresAtencion(matriz):
     lstAtencion=[]
-    for sector in sectores:
-        id, mes, humedad=sector
-        if humedad<=50:
-            lstAtencion.append(sector)
+    for i in range (len(matriz)):
+        for j in range (len(matriz[i])):
+            if matriz[i][j]==0:
+                continue
+            else:
+                if matriz[i][j]<50:
+                    lstAtencion.append(matriz[i][j])
     print(f'Estos son los sectores que requieren atencion: ')
+
     for s in lstAtencion:
-        id, mes, humedad=s
         print(f'informe completo')
 
 
