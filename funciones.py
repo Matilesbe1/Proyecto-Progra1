@@ -10,8 +10,6 @@ import opciones.consultas
 import opciones.gestionMediciones
 import opciones.gestionSectores
 
-
-
 def menuPrincipal(matriz, lst_codigos):
 
     print('\n╔══════════════════════════════════════╗')
@@ -25,13 +23,11 @@ def menuPrincipal(matriz, lst_codigos):
     print('║  6. Salir                            ║')
     print('╚══════════════════════════════════════╝')
 
-    try: 
-        n = int(input('\n Ingrese una opción: '))
-        while n>6 or n<1:
-            n=int(input('ingrese una opcion valida: '))
-        SubOpciones(n, matriz, lst_codigos)
-    except ValueError:
-        print(' ERROR: Ocurrió un error en el programa')
+     
+    n = int(input('\n Ingrese una opción: '))
+    while n>6 or n<1:
+        n=int(input('ingrese una opcion valida: '))
+    SubOpciones(n, matriz, lst_codigos)
 
 
 def SubOpciones(n, matriz, lst_codigos):
@@ -74,9 +70,11 @@ def SubOpciones(n, matriz, lst_codigos):
         print('╚══════════════════════════════════════╝')
         num = int(input('\n Ingrese una opción: '))
         while num>4 or num<1:
-            num=int(input('ingrese una opcion valida: '))
+            num=int(input('ingrese una opcion valida: '))  
         if num==4:
             menuPrincipal(matriz, lst_codigos)
+        else:
+            opciones.consultas.llamarfunciones(lst_codigos, matriz, num)
 
     elif n == 4:
         print('\n╔══════════════════════════════════════╗')
@@ -130,5 +128,3 @@ def SubOpciones(n, matriz, lst_codigos):
             menuPrincipal(matriz, lst_codigos)
         elif num==1:
             print('¡Gracias!')
-
-
