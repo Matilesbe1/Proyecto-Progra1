@@ -60,6 +60,5 @@ def busca_id(lst_codigos):
     return None
 
 
-
         
         
