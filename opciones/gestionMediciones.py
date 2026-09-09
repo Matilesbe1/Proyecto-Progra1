@@ -1,3 +1,4 @@
+import funciones
 def elige_opcion():
     op = int(input("Ingrese 0 para SI y 1 para NO: "))
     while op != 0 and op != 1:
@@ -8,11 +9,11 @@ def elige_opcion():
     else:
         return False
 
-def valida_id_y_mes(lst_codigos,tpl_meses,mes,id_sector):
+def valida_id_y_mes(lst_codigos,mes,id_sector):
     '''Recibe tanto el mes como el sector que ingreso el usuario como la lista y tupla correspondientes a donde estas se alojan.
     La función valida que el ID y mes introducidos se encuentran efectivamente cargados.
     De ser así retorna True, por el contrario, retorna False si no es así.'''
-    if id_sector in lst_codigos and mes in tpl_meses:
+    if id_sector in lst_codigos and (mes>=1 and mes <= 12):
         return True
     else:
         return False
@@ -37,10 +38,10 @@ def pide_humedad():
         valor = int(input("Intene nuevamente: "))
     return valor
 
-def indice_sector_mes(lst_codigos,tpl_meses,mes,id_sector):
+def indice_sector_mes(lst_codigos,mes,id_sector):
     '''Recibe como parámetros ls lista de los códigos, la tupla de meses y el mes e ID ingresado por el usuario.
     La función captura el indice del ID y mes en sus respectivas listas y las retorna empaquetadas.'''
-    i_mes = tpl_meses.index(mes)
+    i_mes = mes-1
     i_id = lst_codigos.index(id_sector)
     return i_mes,i_id
 
@@ -50,9 +51,9 @@ def cargar_medicion(matriz,lst_codigos,tpl_meses):
     id_sector,mes = pide_datos()
     opcion = True
     while opcion:
-        if valida_id_y_mes(lst_codigos,tpl_meses,mes,id_sector):
+        if valida_id_y_mes(lst_codigos,mes,id_sector):
             humedad = pide_humedad()
-            i_mes,i_id = indice_sector_mes(lst_codigos,tpl_meses,mes,id_sector)
+            i_mes,i_id = indice_sector_mes(lst_codigos,mes,id_sector)
             matriz[i_id][i_mes] = humedad
             print(f"Se ha actulizado el valor del sector {id_sector} en el mes {mes} a: {humedad}")
         else:
@@ -65,7 +66,8 @@ def cargar_medicion(matriz,lst_codigos,tpl_meses):
         if opcion:
             id_sector,mes = pide_datos()
         else:
-            print("Volverás al menú principal.")
+            funciones.SubOpciones(2, matriz, lst_codigos,tpl_meses)
+            
     return None
         
 
