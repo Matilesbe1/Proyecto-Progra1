@@ -1,8 +1,8 @@
 def elige_opcion():
-    op = int("Ingrese 0 para SI y 1 para NO: ")
+    op = int(input("Ingrese 0 para SI y 1 para NO: "))
     while op != 0 and op != 1:
         print("Ingreso inválido. Solo puede ingresar 0 para SI o 1 para NO.")
-        op = int("Intente nuevamente: ")
+        op = int(input("Intente nuevamente: "))
     if op == 0:
         return True
     else:
@@ -22,7 +22,7 @@ def pide_datos():
     Pide al usuario que ingrese el ID y el mes a acceder.
     Retorna estos dos valores.'''
     print("Recuerde el formato de los IDs: 123-ABC.")
-    id_sector = input("Ingrese el ID del sector al que quiere acceder: ")
+    id_sector = input("Ingrese el ID del sector al que quiere acceder: ").upper()
     print("Ahora, ingresará el mes a actualizar.\nEstos van de 1 a 12, siendo 1 --> Enero y 12 --> Febrero")
     mes = int(input("Ingrese el mes (1-12): "))
     return id_sector,mes
@@ -48,14 +48,16 @@ def cargar_medicion(matriz,lst_codigos,tpl_meses):
     '''Recibe la matriz, la lista de codigos y la tupla de los meses.
     Se llama a la funcion pide_datos(), con estos llama a valida_id_y_mes() y de ser True, llama a pide_humedad() y luego a indice_sector_mes(). Con esto accede al lugar en la matriz y registra la humedad anteriormente introducida.'''
     id_sector,mes = pide_datos()
-    if valida_id_y_mes(lst_codigos,tpl_meses,mes,id_sector):
-        humedad = pide_humedad()
-        i_mes,i_id = indice_sector_mes(lst_codigos,tpl_meses,mes,id_sector)
-        matriz[i_id][i_mes] = humedad
-        print(f"Se ha actulizado el valor del sector {id_sector} en el mes {mes} a: {humedad}")
-    else:
-        print("Ha ingresado un sector o mes inválido.")
-        print("Recuerde que el formato del sector es 123-ABC y los meses van de 1 a 12.")
+    opcion = True
+    while opcion:
+        if valida_id_y_mes(lst_codigos,tpl_meses,mes,id_sector):
+            humedad = pide_humedad()
+            i_mes,i_id = indice_sector_mes(lst_codigos,tpl_meses,mes,id_sector)
+            matriz[i_id][i_mes] = humedad
+            print(f"Se ha actulizado el valor del sector {id_sector} en el mes {mes} a: {humedad}")
+        else:
+            print("Ha ingresado un sector o mes inválido.")
+            print("Recuerde que el formato del sector es 123-ABC y los meses van de 1 a 12.")
         print("-"*10)
         print("Desea acceder a otro sector y mes?")
         print("-"*10)
@@ -65,16 +67,6 @@ def cargar_medicion(matriz,lst_codigos,tpl_meses):
         else:
             print("Volverás al menú principal.")
     return None
-
-
-def main():
-    tpl_meses = (1,2,3,4,5,6,7,8,9,10,11,12)
-    lst_codigos = ["100-BUE","101-PAM","102-TDF","103-SJN"]
-    matriz = [[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]]
-    cargar_medicion(matriz,lst_codigos,tpl_meses)
-    print(matriz)
-
-main()
         
 
         
