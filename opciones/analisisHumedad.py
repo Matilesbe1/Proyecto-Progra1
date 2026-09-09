@@ -1,6 +1,6 @@
 def llamarFunciones(num, matriz, lst_codigos):
     if num==1:
-        promedio_sector(matriz)
+        promedio_sector(lst_codigos, matriz)
     elif num==2:
         promedio_mes(matriz)
     elif num==3:
@@ -20,7 +20,7 @@ def promedio_sector(sectores, matriz):
         print("No es un sector valido")
         sector = input("Indique el ID del sector: ").upper()
 
-    indice = matriz.index(sector)
+    indice = sectores.index(sector)
     mediciones = [c for c in matriz[indice] if c != -1]
     cantidad = len(mediciones)
     if cantidad == 0:
@@ -28,8 +28,8 @@ def promedio_sector(sectores, matriz):
         return None
     suma = sum(mediciones)
     promedio = suma / cantidad
-    return promedio
-
+    print(f"El promedio es: {promedio}")
+    
 def promedio_mes(matriz):
     mes = int(input("Indique el numero de mes: "))
     while mes < 1 or mes > 12:
@@ -44,7 +44,7 @@ def promedio_mes(matriz):
         return None
     suma = sum(mediciones)
     promedio = suma/cantidad
-    return promedio
+    print(f"El promedio es: {promedio}")
 
 def calcularPromedioGeneral(matriz):
     cant=0

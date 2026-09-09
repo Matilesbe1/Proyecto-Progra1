@@ -78,9 +78,11 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses):
         print('╚══════════════════════════════════════╝')
         num = int(input('\n Ingrese una opción: '))
         while num>4 or num<1:
-            num=int(input('ingrese una opcion valida: '))
+            num=int(input('ingrese una opcion valida: '))  
         if num==4:
-            menuPrincipal(matriz, lst_codigos,tpl_meses)
+            menuPrincipal(matriz, lst_codigos)
+        else:
+            opciones.consultas.llamarfunciones(lst_codigos, matriz, num)
 
     elif n == 4:
         print('\n╔══════════════════════════════════════╗')
@@ -134,5 +136,3 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses):
             menuPrincipal(matriz, lst_codigos,tpl_meses)
         elif num==1:
             print('¡Gracias!')
-
-
