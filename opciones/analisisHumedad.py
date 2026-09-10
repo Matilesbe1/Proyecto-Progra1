@@ -7,13 +7,13 @@ def llamarFunciones(num, matriz, lst_codigos, tpl_meses):
     elif num==3:
         calcularPromedioGeneral(matriz)
     elif num==4:
-        obtenerMayorMedicion(matriz)
+        obtenerMayorMedicion(matriz, lst_codigos, tpl_meses)
     elif num==5:
-        obtenerMenorMedicion(matriz)
+        obtenerMenorMedicion(matriz, lst_codigos, tpl_meses)
     elif num==6:
         contabilizarSectores(matriz)
     elif num==7:
-        sectoresAtencion(matriz)
+        sectoresAtencion(matriz, lst_codigos, tpl_meses)
     funciones.SubOpciones(4, matriz, lst_codigos, tpl_meses)
 
     print("\nPresione ENTER para continuar...")
@@ -65,22 +65,36 @@ def calcularPromedioGeneral(matriz):
                 cant+=1
                 suma+=matriz[i][j]
     promedio=suma/cant
-    print(f'el promedio general de humedad de los sectores es: {promedio}')
+    print("\n" + "=" * 55)
+    print(f"💧 PROMEDIO GENERAL DE HUMEDAD: {promedio:.2f}%")
+    print("=" * 55)
 
 
-def obtenerMayorMedicion(matriz):
+def obtenerMayorMedicion(matriz, lst_codigos, tpl_meses):
     max=0
+    index_cod=0
+    index_mes=0
     for i in range (len(matriz)):
         for j in range (len(matriz[i])):
             if matriz[i][j]>max:
                 max=matriz[i][j]
+                index_cod=i
+                index_mes=j
             else:
                 continue
-    print(f'el sector con mayor humedad registrada es: {max}')
-    print(f'poner sector completo')
+    n, mes=tpl_meses[index_mes]
+    print("\n" + "=" * 55)
+    print("           💧 MAYOR HUMEDAD REGISTRADA")
+    print("=" * 55)
+    print(f"  Sector : {lst_codigos[index_cod]}")
+    print(f"  Mes    : {mes}")
+    print(f"  Humedad: {max:.2f}%")
+    print("=" * 55)
 
-def obtenerMenorMedicion(matriz):
+def obtenerMenorMedicion(matriz, lst_codigos, tpl_meses):
     min=matriz[0][0]
+    index_cod=0
+    index_mes=0
     for i in range (len(matriz)):
         for j in range (len(matriz[i])):
             if matriz[i][j]==0:
@@ -88,11 +102,18 @@ def obtenerMenorMedicion(matriz):
             else:
                 if matriz[i][j]<min:
                     min=matriz[i][j]
+                    index_cod=i
+                    index_mes=j
                 else:
                     continue
-    print(f'el sector con menor humedad registrada es: {min}')
-    print(f'poner sector completo')
-
+    n, mes=tpl_meses[index_mes]
+    print("\n" + "=" * 55)
+    print("           💧 MENOR HUMEDAD REGISTRADA")
+    print("=" * 55)
+    print(f"  Sector : {lst_codigos[index_cod]}")
+    print(f"  Mes    : {mes}")
+    print(f"  Humedad: {min:.2f}%")
+    print("=" * 55)
 
 def contabilizarSectores(matriz):
     cant=0
@@ -102,22 +123,20 @@ def contabilizarSectores(matriz):
                 continue
             else:
                 cant+=1
-    print(f'{cant} sectores fueron cargados')
+    print("\n" + "=" * 55)
+    print(f"        ✓ {cant} SECTORES CARGADOS")
+    print("=" * 55)
 
 
-def sectoresAtencion(matriz):
-    lstAtencion=[]
-    for i in range (len(matriz)):
-        for j in range (len(matriz[i])):
-            if matriz[i][j]==0:
+def sectoresAtencion(matriz, lst_codigos, tpl_meses):
+    print("\n" + "=" * 55)
+    print("       SECTORES QUE REQUIEREN ATENCIÓN")
+    print("=" * 55)
+    for i in range(len(matriz)):
+        for j in range(len(matriz[i])):
+            if matriz[i][j] == 0:
                 continue
-            else:
-                if matriz[i][j]<50:
-                    lstAtencion.append(matriz[i][j])
-    print(f'Estos son los sectores que requieren atencion: ')
-
-    for s in lstAtencion:
-        print(f'informe completo')
-
-
-
+            if matriz[i][j] < 50:
+                mes = tpl_meses[j][1]
+                print(f"  {lst_codigos[i]:<10} | {mes:<10} | {matriz[i][j]:>6.2f}%")
+    print("=" * 55)
