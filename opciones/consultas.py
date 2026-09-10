@@ -4,10 +4,13 @@ def llamarfunciones(lst_codigos, matriz, num, tpl_meses):
         consultar_sector(lst_codigos, matriz)
     elif num == 2:
         consultar_mediciones_mes(matriz)
-    else:
+    elif num == 3:
         consultar_estado_humedad(lst_codigos, matriz)
-    funciones.SubOpciones(3, matriz, lst_codigos, tpl_meses)
 
+    print("\nPresione ENTER para continuar...")
+    input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
+    funciones.SubOpciones(3,matriz, lst_codigos, tpl_meses)
+    
 def consultar_sector(sectores, matriz):
     sector = input("Ingrese el ID del sector a consultar: ").upper()
     while sector not in sectores:
