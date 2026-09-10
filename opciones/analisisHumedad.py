@@ -1,4 +1,5 @@
-def llamarFunciones(num, matriz, lst_codigos):
+import funciones
+def llamarFunciones(num, matriz, lst_codigos, tpl_meses):
     if num==1:
         promedio_sector(lst_codigos, matriz)
     elif num==2:
@@ -13,6 +14,7 @@ def llamarFunciones(num, matriz, lst_codigos):
         contabilizarSectores(matriz)
     elif num==7:
         sectoresAtencion(matriz)
+    funciones.SubOpciones(4, matriz, lst_codigos, tpl_meses)
 
 def promedio_sector(sectores, matriz):
     sector = input("Indique el ID del sector: ").upper()
@@ -37,7 +39,7 @@ def promedio_mes(matriz):
         mes = int(input("Indique el numero de mes: "))
     mes -= 1 
 
-    mediciones = [c[mes] for c in matriz if c[mes] != -1]
+    mediciones = [c[mes] for c in matriz if len(c) > mes and c[mes] != -1]
     cantidad = len(mediciones)
     if cantidad == 0:
         print("La cantidad de mediciones es de 0")

@@ -1,11 +1,12 @@
-def llamarfunciones(lst_codigos, matriz, num):
+import funciones
+def llamarfunciones(lst_codigos, matriz, num, tpl_meses):
     if num == 1:
         consultar_sector(lst_codigos, matriz)
     elif num == 2:
         consultar_mediciones_mes(matriz)
     else:
         consultar_estado_humedad(lst_codigos, matriz)
-
+    funciones.SubOpciones(3, matriz, lst_codigos, tpl_meses)
 
 def consultar_sector(sectores, matriz):
     sector = input("Ingrese el ID del sector a consultar: ").upper()
@@ -24,8 +25,8 @@ def consultar_mediciones_mes(matriz):
         mes = int(input("Ingrese el numero de mes: "))
     mes -= 1
 
-    resultado = [c[mes] for c in matriz]
-    print(f"Las mediciones del mes numero {mes+1} es de: {resultado}")
+    resultado = [c[mes] for c in matriz if len(c) > mes]
+    print(f"Las mediciones del mes numero {mes+1} son de: {resultado}")
 
 def consultar_estado_humedad(sectores, matriz):
     sector = input("Ingrese el ID del sector a consultar: ").upper()
@@ -53,3 +54,6 @@ def consultar_estado_humedad(sectores, matriz):
         print("El estado es adecuado")
     else:
         print("El estado es Excesivo")
+
+
+
