@@ -101,7 +101,7 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses):
             menuPrincipal(matriz, lst_codigos,tpl_meses)
         else:
             opciones.analisisHumedad.llamarFunciones(num, matriz, lst_codigos, tpl_meses)
-
+            
     elif n == 5:  
         print('\n╔══════════════════════════════════════╗')
         print('║             📄 INFORMES               ║')
