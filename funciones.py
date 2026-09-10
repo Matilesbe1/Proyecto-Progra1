@@ -25,14 +25,11 @@ def menuPrincipal(matriz, lst_codigos,tpl_meses):
     print('║  6. Salir                            ║')
     print('╚══════════════════════════════════════╝')
 
-    try: 
-        n = int(input('\n Ingrese una opción: '))
-        while n>6 or n<1:
-            n=int(input('ingrese una opcion valida: '))
-        SubOpciones(n, matriz, lst_codigos,tpl_meses)
-    except ValueError:
-        print(' ERROR: Ocurrió un error en el programa')
-
+    n = int(input('\n Ingrese una opción: '))
+    while n>6 or n<1:
+        n=int(input('ingrese una opcion valida: '))
+    SubOpciones(n, matriz, lst_codigos,tpl_meses)
+    
 
 def SubOpciones(n, matriz, lst_codigos,tpl_meses):
     if n == 1:
@@ -80,9 +77,9 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses):
         while num>4 or num<1:
             num=int(input('ingrese una opcion valida: '))  
         if num==4:
-            menuPrincipal(matriz, lst_codigos)
+            menuPrincipal(matriz, lst_codigos,tpl_meses)
         else:
-            opciones.consultas.llamarfunciones(lst_codigos, matriz, num)
+            opciones.consultas.llamarfunciones(lst_codigos, matriz, num,tpl_meses)
 
     elif n == 4:
         print('\n╔══════════════════════════════════════╗')
@@ -103,11 +100,11 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses):
         if num==8:
             menuPrincipal(matriz, lst_codigos,tpl_meses)
         else:
-            opciones.analisisHumedad.llamarFunciones(num, matriz, lst_codigos)
+            opciones.analisisHumedad.llamarFunciones(num, matriz, lst_codigos, tpl_meses)
 
     elif n == 5:  
         print('\n╔══════════════════════════════════════╗')
-        print('║             📄 INFORMES              ║')
+        print('║             📄 INFORMES               ║')
         print('╠══════════════════════════════════════╣')
         print('║  1. Informe general del campo        ║')
         print('║  2. Informe de un sector             ║')
@@ -121,6 +118,8 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses):
             num=int(input('ingrese una opcion valida: '))
         if num==6:
             menuPrincipal(matriz, lst_codigos,tpl_meses)
+        else:
+            opciones.informes.llamarFunciones(num,matriz,lst_codigos,tpl_meses)
 
     else:
         print('\n╔══════════════════════════════════════╗')
