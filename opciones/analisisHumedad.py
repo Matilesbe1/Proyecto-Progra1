@@ -11,7 +11,7 @@ def llamarFunciones(num, matriz, lst_codigos, tpl_meses):
     elif num==5:
         obtenerMenorMedicion(matriz, lst_codigos, tpl_meses)
     elif num==6:
-        contabilizarSectores(matriz)
+        contabilizarSectores(matriz, lst_codigos, tpl_meses)
     elif num==7:
         sectoresAtencion(matriz, lst_codigos, tpl_meses)
     funciones.SubOpciones(4, matriz, lst_codigos, tpl_meses)
@@ -115,14 +115,10 @@ def obtenerMenorMedicion(matriz, lst_codigos, tpl_meses):
     print(f"  Humedad: {min:.2f}%")
     print("=" * 55)
 
-def contabilizarSectores(matriz):
+def contabilizarSectores(matriz, lst_codigos, tpl_meses):
     cant=0
-    for i in range (len(matriz)):
-        for j in range (len(matriz[i])):
-            if matriz[i][j]==0:
-                continue
-            else:
-                cant+=1
+    for i in range (len(lst_codigos)):
+        cant+=1
     print("\n" + "=" * 55)
     print(f"        ✓ {cant} SECTORES CARGADOS")
     print("=" * 55)
