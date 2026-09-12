@@ -14,8 +14,6 @@ def llamarFunciones(num, matriz, lst_codigos, tpl_meses):
         contabilizarSectores(matriz, lst_codigos, tpl_meses)
     elif num==7:
         sectoresAtencion(matriz, lst_codigos, tpl_meses)
-    funciones.SubOpciones(4, matriz, lst_codigos, tpl_meses)
-
     print("\nPresione ENTER para continuar...")
     input()
     funciones.SubOpciones(4, matriz, lst_codigos, tpl_meses)

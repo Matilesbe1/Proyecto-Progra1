@@ -55,10 +55,15 @@ def cargar_medicion(matriz,lst_codigos,tpl_meses):
             humedad = pide_humedad()
             i_mes,i_id = indice_sector_mes(lst_codigos,mes,id_sector)
             matriz[i_id][i_mes] = humedad
-            print(f"Se ha actulizado el valor del sector {id_sector} en el mes {mes} a: {humedad}")
+            print(f" ✓ Se ha actulizado el valor del sector {id_sector} en el mes {mes} a: {humedad}")
+
+            print("\nPresione ENTER para continuar...")
+            input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
         else:
-            print("Ha ingresado un sector o mes inválido.")
+            print(" ✕ Ha ingresado un sector o mes inválido.")
             print("Recuerde que el formato del sector es 123-ABC y los meses van de 1 a 12.")
+            print("\nPresione ENTER para continuar...")
+            input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
         print("-"*10)
         print("Desea acceder a otro sector y mes?")
         print("-"*10)

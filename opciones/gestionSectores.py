@@ -37,12 +37,14 @@ def alta_sector(lst_codigos,matriz,tpl_meses):
     cant = 0
     while codigo != "-1" and cant <= 50:
         if valida_codigo(codigo) and codigo not in lst_codigos:
-            print(f"El sector {cant+1} se ha dado de alta con el codigo {codigo}.")
-            cant += 1
+            print(f"✓ El sector se ha dado de alta con el codigo {codigo}.")
             lst_codigos.append(codigo.upper())
             matriz.append([-1 for humedad in range(12)])
+
+            print("\nPresione ENTER para continuar...")
+            input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
         else:
-            print("El código ingresado es inválido o está repetido. Vuelva a intentarlo.")
+            print("✕ El código ingresado es inválido o está repetido. Vuelva a intentarlo.")
         codigo = input("Ingrese el codigo (-1 finaliza): ").upper()
     funciones.SubOpciones(1, matriz, lst_codigos,tpl_meses)
     return None
@@ -58,9 +60,12 @@ def busca_id(matriz,lst_codigos,tpl_meses):
     while opcion == 0:
         id_buscado = input("Ingrese el ID del sector que quiere buscar: ").upper()
         if id_buscado in lst_codigos:
-            print(f"El sector con ID {id_buscado} se encuentra registrado en el sistema.")
+            print(f"✓ El sector con ID {id_buscado} se encuentra registrado en el sistema.")
+
+            print("\nPresione ENTER para continuar...")
+            input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
         else:
-            print(f"No se econtró ningún sector con el ID: {id_buscado}")
+            print(f"✕ No se econtró ningún sector con el ID: {id_buscado}")
         print("Desea realizar una nueva busqueda?: ")
         opcion = int(input("Ingrese 0 para SI y 1 para NO: "))
         while opcion != 0 and opcion != 1:
@@ -84,6 +89,10 @@ def mostrar_matriz(matriz,sectores,meses):
             print("%5d" %matriz[f][c],end=" ")
         print()
     print("-"*80)
+
+    print("\nPresione ENTER para continuar...")
+    input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
+
     funciones.SubOpciones(1, matriz, sectores,meses)
     return None
 

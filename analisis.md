@@ -34,9 +34,9 @@ La relación será:
 
 matriz[sector][mes] → porcentaje de humedad
 
-Los meses del año serán representados mediante una tupla, conteniendo los doce meses:
+Los meses del año serán representados mediante una lista de tuplas, conteniendo los doce meses en número y en tipo string:
 
-("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
+[(1,"Ene"),(2,"Feb"),(3,"Mar"),(4,"Abr"),(5,"May"),(6,"Jun"),(7,"Jul"),(8,"Ago"),(9,"Sep"),(10,"Oct"),(11,"Nov"),(12,"Dic")]
 
 Para representar la ausencia de una medición se utilizará el valor -1, ya que el valor 0 representa una medición válida de humedad.
 
