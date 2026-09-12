@@ -169,8 +169,8 @@ Mostrará información general sobre el estado de los datos registrados, incluye
 Cantidad de sectores registrados.
 Cantidad de mediciones cargadas.
 Promedio general de humedad.
-Mayor medición registrada, indicando sector y mes.
-Menor medición registrada, indicando sector y mes.
+Mayor medición registrada, indicando sector y mes (si se repite, aparece el primero).
+Menor medición registrada, indicando sector y mes (si se repite, aparece el primero).
 Informe de un sector
 
 Mostrará información correspondiente a un sector seleccionado, incluyendo:
