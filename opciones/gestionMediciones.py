@@ -24,7 +24,7 @@ def pide_datos():
     Retorna estos dos valores.'''
     print("Recuerde el formato de los IDs: 123-ABC.")
     id_sector = input("Ingrese el ID del sector al que quiere acceder: ").upper()
-    print("Ahora, ingresará el mes a actualizar.\nEstos van de 1 a 12, siendo 1 --> Enero y 12 --> Febrero")
+    print("Ahora, ingresará el mes a actualizar.\nEstos van de 1 a 12, siendo 1 --> Enero y 12 --> Diciembre")
     mes = int(input("Ingrese el mes (1-12): "))
     return id_sector,mes
 
