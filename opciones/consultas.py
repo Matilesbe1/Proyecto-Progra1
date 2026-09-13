@@ -8,7 +8,7 @@ def llamarfunciones(lst_codigos, matriz, num, tpl_meses):
         consultar_estado_humedad(lst_codigos, matriz)
 
     print("\nPresione ENTER para continuar...")
-    input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
+    input()
     funciones.SubOpciones(3,matriz, lst_codigos, tpl_meses)
     
 def consultar_sector(sectores, matriz):
@@ -19,7 +19,11 @@ def consultar_sector(sectores, matriz):
 
     indice = sectores.index(sector)
     resultado = [c for c in matriz[indice]]
-    print(f"El sector {sector} tiene las siguientes mediciones: {resultado}")
+    print("\n" + "=" * 90)
+    print("El sector", sector, "tiene las siguientes mediciones:", end="")
+    for i in resultado:
+        print(i, end="|")
+    print("\n" + "=" * 90)
 
 def consultar_mediciones_mes(matriz):
     mes = int(input("Ingrese el numero de mes: "))
@@ -29,8 +33,12 @@ def consultar_mediciones_mes(matriz):
     mes -= 1
 
     resultado = [c[mes] for c in matriz if len(c) > mes]
-    print(f"Las mediciones del mes numero {mes+1} son de: {resultado}")
-
+    print("\n" + "=" * 90)
+    print(f"Las mediciones del mes numero {mes+1} son de:", end="")
+    for i in resultado:
+        print(i, end="|")
+    print("\n" + "=" * 90)
+    
 def consultar_estado_humedad(sectores, matriz):
     sector = input("Ingrese el ID del sector a consultar: ").upper()
     while sector not in sectores:
@@ -46,17 +54,23 @@ def consultar_estado_humedad(sectores, matriz):
 
     valor = matriz[indice][mes]
     if valor == -1:
+        print("\n" + "=" * 28)
         print("No hay medicion registrada")
+        print("=" * 28)
         return None
 
     if valor <= 29:
-        print("El estado es Critico")
+        estado = "CRÍTICO"
     elif valor <= 50:
-        print("El estado es Bajo")
+        estado = "BAJO"
     elif valor <= 80:
-        print("El estado es adecuado")
+        estado = "ADECUADO"
     else:
-        print("El estado es Excesivo")
+        estado = "EXCESIVO"
+    
+    print("=" * 18)
+    print(f"ESTADO: {estado}")
+    print("=" * 18)
 
 
 

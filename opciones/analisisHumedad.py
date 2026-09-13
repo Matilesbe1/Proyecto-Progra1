@@ -28,11 +28,15 @@ def promedio_sector(sectores, matriz,tpl_meses):
     mediciones = [c for c in matriz[indice] if c != -1]
     cantidad = len(mediciones)
     if cantidad == 0:
+        print("\n" + "=" * 35)
         print("La cantidad de mediciones es de 0")
+        print("=" * 35)
         return None
     suma = sum(mediciones)
     promedio = suma / cantidad
-    print(f"El promedio es: {promedio}")
+    print("\n" + "=" * 23)
+    print(f"El promedio es: {promedio:.2f}")
+    print("=" * 23)
 
     
 def promedio_mes(matriz,tpl_meses):
@@ -45,11 +49,15 @@ def promedio_mes(matriz,tpl_meses):
     mediciones = [c[mes] for c in matriz if len(c) > mes and c[mes] != -1]
     cantidad = len(mediciones)
     if cantidad == 0:
+        print("\n" + "=" * 35)
         print("La cantidad de mediciones es de 0")
+        print("=" * 35)
         return None
     suma = sum(mediciones)
     promedio = suma/cantidad
-    print(f"El promedio es: {promedio}")
+    print("\n" + "=" * 23)
+    print(f"El promedio es: {promedio:.2f}")
+    print("=" * 23)
 
 
 def calcularPromedioGeneral(matriz):
