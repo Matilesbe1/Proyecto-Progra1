@@ -7,9 +7,17 @@ def llamarfunciones(lst_codigos, matriz, num, tpl_meses):
     elif num == 3:
         consultar_estado_humedad(lst_codigos, matriz)
 
-    print("\nPresione ENTER para continuar...")
-    input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
-    funciones.SubOpciones(3,matriz, lst_codigos, tpl_meses)
+    print("\nPresione 0 para continuar, 1 para finalizar...")
+    numero = int(input())
+    while numero > 1 or numero < 0:
+        print("Indique el numero correctamente")
+        numero = int(input("Vuelva a ingresar el numero: "))
+    if numero == 0:
+        funciones.SubOpciones(3,matriz, lst_codigos, tpl_meses)        
+        return True
+    else:
+        print("finalizando el programa...")
+        return False
     
 def consultar_sector(sectores, matriz):
     sector = input("Ingrese el ID del sector a consultar: ").upper()
@@ -19,7 +27,11 @@ def consultar_sector(sectores, matriz):
 
     indice = sectores.index(sector)
     resultado = [c for c in matriz[indice]]
-    print(f"El sector {sector} tiene las siguientes mediciones: {resultado}")
+    print("\n" + "=" * 90)
+    print("El sector", sector, "tiene las siguientes mediciones:", end="")
+    for i in resultado:
+        print(i, end="|")
+    print("\n" + "=" * 90)
 
 def consultar_mediciones_mes(matriz):
     mes = int(input("Ingrese el numero de mes: "))
@@ -29,7 +41,11 @@ def consultar_mediciones_mes(matriz):
     mes -= 1
 
     resultado = [c[mes] for c in matriz if len(c) > mes]
-    print(f"Las mediciones del mes numero {mes+1} son de: {resultado}")
+    print("\n" + "=" * 90)
+    print(f"Las mediciones del mes numero {mes+1} son de:", end="")
+    for i in resultado:
+        print(i, end="|")
+    print("\n" + "=" * 90)
 
 def consultar_estado_humedad(sectores, matriz):
     sector = input("Ingrese el ID del sector a consultar: ").upper()
@@ -46,17 +62,21 @@ def consultar_estado_humedad(sectores, matriz):
 
     valor = matriz[indice][mes]
     if valor == -1:
+        print("\n" + "=" * 28)
         print("No hay medicion registrada")
+        print("=" * 28)
         return None
 
     if valor <= 29:
-        print("El estado es Critico")
+        estado = "CRÍTICO"
     elif valor <= 50:
-        print("El estado es Bajo")
+        estado = "BAJO"
     elif valor <= 80:
-        print("El estado es adecuado")
+        estado = "ADECUADO"
     else:
-        print("El estado es Excesivo")
-
-
+        estado = "EXCESIVO"
+    
+    print("=" * 30)
+    print(f"ESTADO: {estado}")
+    print("=" * 30)
 
