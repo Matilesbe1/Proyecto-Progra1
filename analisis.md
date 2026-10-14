@@ -385,7 +385,7 @@ Clasificación de la humedad según el cultivo
 
 Los rangos de humedad dependerán del cultivo de cada sector. Se almacenarán en el archivo rangos.csv y se cargarán al iniciar el programa en un diccionario donde la clave es el cultivo y el valor es otro diccionario con los rangos de cada estado:
 
-python
+
 RANGOS_CULTIVO = {
     "Soja":      {"Crítico": (0, 34), "Bajo": (35, 54), "Adecuado": (55, 80), "Excesivo": (81, 100)},
     "Trigo":     {"Crítico": (0, 24), "Bajo": (25, 44), "Adecuado": (45, 70), "Excesivo": (71, 100)},
@@ -532,32 +532,11 @@ Salida del sistema.
 
 Se realizarán validaciones para evitar que datos incorrectos provoquen la finalización del programa.
 
-Entre ellas:
-
-Validación de opciones del menú.
-Validación de campos obligatorios.
-Control de campos vacíos.
-Validación del formato del ID mediante expresión regular (tres dígitos, guion y tres letras).
-Normalización de las letras del ID a mayúsculas.
-Validación del formato de usuario y contraseña mediante expresiones regulares.
-Validación de credenciales contra el archivo de usuarios.
-Control de IDs repetidos.
-Control de IDs inexistentes.
-Validación de la cantidad máxima de 50 sectores.
-Validación del cultivo (debe existir en el archivo de rangos).
-Validación de meses.
-Validación de valores numéricos.
-Validación del porcentaje de humedad entre 0 % y 100 %.
-Control de sectores sin mediciones.
-Control de meses sin mediciones.
-Control de actualización de mediciones inexistentes.
-Validación de las filas leídas desde los archivos CSV.
-
 Ante cualquier dato inválido, el sistema mostrará un mensaje indicando el error y permitirá al usuario continuar utilizando el programa sin finalizar su ejecución.
 
 Manejo de excepciones
 
-El sistema utilizará únicamente dos excepciones estándar de Python, sin definir excepciones propias, para evitar que cualquier error provoque el cierre inesperado del programa:
+El sistema utilizará únicamente dos excepciones estándar de Python:
 
 ValueError: se utilizará ante cualquier dato inválido, ya sea ingresado por el usuario o leído desde un archivo. Incluye: ID con formato incorrecto, sector duplicado o inexistente, límite de sectores alcanzado, cultivo inválido, mes inválido, porcentaje vacío, no numérico o fuera de 0–100, credenciales incorrectas, y filas de los CSV con datos inválidos (la fila se ignora y se informa). Cada caso se diferencia por el mensaje que se muestra al usuario.
 OSError: se utilizará ante cualquier problema con los archivos CSV. Incluye los casos de archivo inexistente (FileNotFoundError) y falta de permisos (PermissionError), que son subclases de OSError. Si falta usuarios.csv o rangos.csv, se crean con valores iniciales. Si falta mediciones.csv, el sistema inicia sin sectores. Ante un error de escritura, se informa al usuario.
@@ -568,18 +547,6 @@ Datos y estructuras utilizadas
 
 La información del sistema será administrada mediante listas, matrices, tuplas, diccionarios y cadenas de caracteres, asignando cada estructura a la información que corresponda.
 
-Las estructuras utilizadas serán:
-
-Lista homogénea: almacenará los IDs de los sectores registrados.
-Tupla: almacenará los doce meses del año y los rangos (mínimo, máximo) de cada estado.
-Matriz numérica: almacenará los porcentajes de humedad de cada sector para cada mes. El valor -1 representará la ausencia de medición.
-Diccionario de rangos por cultivo: almacenará los rangos de humedad de soja, trigo, papa, zanahoria y batata, cargados desde rangos.csv.
-Diccionario de cultivos por sector: relacionará cada ID de sector con su cultivo.
-Diccionario de usuarios: cargado desde usuarios.csv, relacionará cada usuario con su contraseña (hash) y nombre.
-Diccionario acumulador: contabilizará los sectores por estado de humedad.
-Cadenas de caracteres: se utilizarán para almacenar y manipular los IDs, mensajes del sistema y estados de humedad.
-Variables numéricas: se utilizarán para porcentajes, promedios, cantidades, máximos y mínimos.
-
 La matriz permitirá relacionar cada sector con sus mediciones mensuales y será la principal estructura utilizada para realizar los cálculos y análisis.
 
 Archivos utilizados
@@ -587,7 +554,7 @@ Archivos utilizados
 El sistema utilizará tres archivos CSV, leídos y escritos con el módulo csv:
 
 Archivo	Columnas	Contenido
-usuarios.csv	usuario, clave_hash, nombre	Usuarios habilitados. Las contraseñas se guardan como hash SHA-256.
+usuarios.csv	usuario, clave_hash, nombre	Usuarios habilitados. 
 rangos.csv	cultivo, estado, minimo, maximo	Rangos de humedad de cada cultivo (una fila por cultivo y estado).
 mediciones.csv	id, cultivo, Ene, Feb, ..., Dic	Una fila por sector, con su cultivo y las 12 mediciones (-1 si no hay medición).
 
