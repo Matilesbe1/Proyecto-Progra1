@@ -301,11 +301,9 @@ La incorporación de cultivos y rangos de humedad específicos para cada tipo de
 
 
 
-# NUEVO ALCANCE
+# Nuevo Alcance del proyecto
 
-Alcance del proyecto
-
-El proyecto consiste en desarrollar un sistema para registrar, consultar y analizar mediciones de humedad correspondientes a distintos sectores de un campo, cada uno con un cultivo asignado. El sistema utilizará una matriz para almacenar los valores de humedad registrados para cada sector y cada mes del año. El acceso al sistema estará protegido mediante usuario y contraseña, validados contra un archivo CSV de usuarios.
+El proyecto consiste en desarrollar un sistema para registrar, consultar y analizar mediciones de humedad correspondientes a distintos sectores de un campo, cada uno con un cultivo asignado. El sistema utilizará una matriz para almacenar los valores de humedad registrados para cada sector y cada mes del año. Los datos (usuarios, sectores con sus mediciones y rangos de humedad por cultivo) se almacenarán en archivos CSV. El acceso al sistema estará protegido mediante usuario y contraseña, validados contra el archivo de usuarios.
 
 El sistema permitirá registrar hasta un máximo de 50 sectores. Cada sector estará identificado mediante un ID único y tendrá asociado un cultivo.
 
@@ -313,11 +311,12 @@ Acceso al sistema (login)
 
 Al iniciar el programa, el usuario deberá ingresar su usuario y contraseña.
 
-Los usuarios se almacenarán en un archivo CSV (usuarios.csv) con los siguientes datos: usuario, contraseña (almacenada como hash, nunca en texto plano) y nombre completo.
+Los usuarios se almacenarán en el archivo usuarios.csv con los siguientes datos: usuario, contraseña (almacenada como hash, nunca en texto plano) y nombre completo.
 El usuario deberá cumplir un formato validado con expresiones regulares: entre 4 y 15 caracteres, solo letras, números y guion bajo.
 La contraseña deberá cumplir un formato validado con expresiones regulares: mínimo 6 caracteres, con al menos una letra y un número.
 El usuario tendrá un máximo de 3 intentos. Si los agota, el programa finalizará.
 Si el archivo de usuarios no existe, el sistema lo creará con un usuario administrador inicial.
+Todos los usuarios que inicien sesión tendrán acceso a las mismas funcionalidades. No existen roles ni permisos diferenciados.
 Identificación de los sectores
 
 Cada sector tendrá un ID único compuesto por:
@@ -328,9 +327,9 @@ Tres letras correspondientes a una abreviación identificatoria.
 
 Por ejemplo: 123-PAP
 
-El ID se validará mediante una expresión regular (\d{3}-[A-Za-z]{3}), que reemplaza el uso de slicing para validar sus partes. La abreviación deberá estar compuesta por exactamente tres letras y se almacenará en mayúsculas. El sistema validará que el ID cumpla con este formato y que no se encuentre registrado previamente.
+El ID se validará mediante una expresión regular (\d{3}-[A-Za-z]{3}). La abreviación deberá estar compuesta por exactamente tres letras y se almacenará en mayúsculas. El sistema validará que el ID cumpla con este formato y que no se encuentre registrado previamente.
 
-Además del ID, cada sector tendrá asociado un cultivo, elegido de la siguiente lista: soja, trigo, papa, zanahoria y batata.
+Además del ID, cada sector tendrá asociado un cultivo, que deberá ser uno de los definidos en el archivo de rangos: soja, trigo, papa, zanahoria y batata.
 
 El usuario podrá continuar registrando sectores mientras no se haya alcanzado el límite máximo de 50 sectores. Para finalizar la carga de sectores podrá ingresar -1.
 
@@ -384,7 +383,7 @@ Si se intenta actualizar una medición que no existe, el sistema informará al u
 
 Clasificación de la humedad según el cultivo
 
-Los rangos de humedad dependerán del cultivo de cada sector. Se almacenarán en un diccionario donde la clave es el cultivo y el valor es otro diccionario con los rangos de cada estado:
+Los rangos de humedad dependerán del cultivo de cada sector. Se almacenarán en el archivo rangos.csv y se cargarán al iniciar el programa en un diccionario donde la clave es el cultivo y el valor es otro diccionario con los rangos de cada estado:
 
 python
 RANGOS_CULTIVO = {
@@ -394,6 +393,10 @@ RANGOS_CULTIVO = {
     "Zanahoria": {"Crítico": (0, 39), "Bajo": (40, 59), "Adecuado": (60, 80), "Excesivo": (81, 100)},
     "Batata":    {"Crítico": (0, 29), "Bajo": (30, 49), "Adecuado": (50, 75), "Excesivo": (76, 100)},
 }
+
+Nota: estos valores son de ejemplo. Antes de entregar, reemplazalos por los que correspondan según la fuente que uses (bibliografía agronómica, INTA, tu docente, etc.).
+
+Si el archivo rangos.csv no existe, el sistema lo creará con estos valores iniciales. Los rangos se modifican editando el archivo por fuera del programa. Se validará al cargarlo que los rangos de cada cultivo cubran de 0 a 100 sin superposiciones ni huecos.
 
 A partir de esta clasificación, el sistema determinará el estado de humedad de cada sector para un mes determinado, usando los rangos del cultivo asignado a ese sector.
 
@@ -420,13 +423,11 @@ Promedio general de humedad del campo, considerando todas las mediciones registr
 Mayor medición de humedad registrada.
 Menor medición de humedad registrada.
 
-En el caso de obtener la mayor o menor medición, el sistema informará:
+Criterio unificado para mayor y menor medición: en todas las funcionalidades del sistema (análisis de humedad e informe general) se informará una única medición para la mayor y una única medición para la menor, sin mostrar empates. Si existen varias mediciones que coinciden con el valor máximo o mínimo, se informará únicamente la primera encontrada, recorriendo los sectores en el orden en que fueron registrados y los meses de enero a diciembre. Para cada una se informará:
 
 Porcentaje de humedad.
 Sector al que corresponde.
 Mes en el que fue registrada.
-
-Si existen varias mediciones que coinciden con el valor máximo o mínimo, el sistema contemplará todas las mediciones correspondientes e indicará cada sector y mes involucrado.
 
 Cuando no existan mediciones para realizar alguno de estos cálculos, el sistema informará que no existen datos disponibles.
 
@@ -455,7 +456,7 @@ Para realizar el ordenamiento se utilizará lambda como criterio de ordenamiento
 También se utilizarán otras herramientas requeridas para el desarrollo del proyecto, como:
 
 Comprensión de listas: para obtener sectores que cumplan determinadas condiciones, por ejemplo, sectores en estado crítico o bajo.
-Expresiones regulares: para validar el formato del ID de los sectores, el usuario y la contraseña.
+Expresiones regulares: para validar el formato del ID de los sectores, el usuario, la contraseña y el porcentaje de humedad.
 
 Estas herramientas serán utilizadas dentro de las funcionalidades existentes, sin necesidad de agregar nuevas funcionalidades al sistema.
 
@@ -484,8 +485,8 @@ Mostrará información general sobre el estado de los datos registrados, incluye
 Cantidad de sectores registrados.
 Cantidad de mediciones cargadas.
 Promedio general de humedad.
-Mayor medición registrada, indicando sector y mes. Si se repite, aparecerá el primero.
-Menor medición registrada, indicando sector y mes. Si se repite, aparecerá el primero.
+Mayor medición registrada, indicando sector y mes (una sola, según el criterio unificado).
+Menor medición registrada, indicando sector y mes (una sola, según el criterio unificado).
 Informe de un sector
 
 Mostrará información correspondiente a un sector seleccionado, incluyendo:
@@ -543,40 +544,23 @@ Validación de credenciales contra el archivo de usuarios.
 Control de IDs repetidos.
 Control de IDs inexistentes.
 Validación de la cantidad máxima de 50 sectores.
-Validación del cultivo (debe ser uno de los cinco disponibles).
+Validación del cultivo (debe existir en el archivo de rangos).
 Validación de meses.
 Validación de valores numéricos.
 Validación del porcentaje de humedad entre 0 % y 100 %.
 Control de sectores sin mediciones.
 Control de meses sin mediciones.
 Control de actualización de mediciones inexistentes.
-Control de permisos según el rol del usuario.
+Validación de las filas leídas desde los archivos CSV.
 
 Ante cualquier dato inválido, el sistema mostrará un mensaje indicando el error y permitirá al usuario continuar utilizando el programa sin finalizar su ejecución.
 
 Manejo de excepciones
 
-El sistema utilizará excepciones para controlar los posibles errores, de modo que ninguno provoque el cierre inesperado del programa.
+El sistema utilizará únicamente dos excepciones estándar de Python, sin definir excepciones propias, para evitar que cualquier error provoque el cierre inesperado del programa:
 
-Excepciones propias del sistema (todas heredan de una excepción base ErrorSistema):
-
-IDInvalidoError: el ID no cumple el formato.
-SectorDuplicadoError: el ID ya está registrado.
-SectorInexistenteError: el ID no existe.
-LimiteSectoresError: se alcanzó el máximo de 50 sectores.
-CultivoInvalidoError: el cultivo no está entre los disponibles.
-MesInvalidoError: el mes no está entre 1 y 12.
-HumedadInvalidaError: el porcentaje está vacío, no es numérico o está fuera de 0–100.
-CredencialesInvalidasError: usuario o contraseña incorrectos o con formato inválido.
-PermisoDenegadoError: el rol del usuario no permite la acción.
-
-Excepciones estándar de Python:
-
-FileNotFoundError: no existe usuarios.csv (se crea con el usuario administrador inicial).
-PermissionError y OSError: errores al leer o escribir el archivo.
-ValueError: conversión de datos numéricos inválidos.
-KeyError: filas del CSV con columnas faltantes (la fila se ignora y se informa).
-EOFError y KeyboardInterrupt: cierre ordenado del programa si se interrumpe la entrada.
+ValueError: se utilizará ante cualquier dato inválido, ya sea ingresado por el usuario o leído desde un archivo. Incluye: ID con formato incorrecto, sector duplicado o inexistente, límite de sectores alcanzado, cultivo inválido, mes inválido, porcentaje vacío, no numérico o fuera de 0–100, credenciales incorrectas, y filas de los CSV con datos inválidos (la fila se ignora y se informa). Cada caso se diferencia por el mensaje que se muestra al usuario.
+OSError: se utilizará ante cualquier problema con los archivos CSV. Incluye los casos de archivo inexistente (FileNotFoundError) y falta de permisos (PermissionError), que son subclases de OSError. Si falta usuarios.csv o rangos.csv, se crean con valores iniciales. Si falta mediciones.csv, el sistema inicia sin sectores. Ante un error de escritura, se informa al usuario.
 
 Todos los errores se informarán con un mensaje claro y el programa continuará en funcionamiento, salvo el agotamiento de los 3 intentos de login.
 
@@ -585,27 +569,33 @@ Datos y estructuras utilizadas
 La información del sistema será administrada mediante listas, matrices, tuplas, diccionarios y cadenas de caracteres, asignando cada estructura a la información que corresponda.
 
 Las estructuras utilizadas serán:
-<!-- 
+
 Lista homogénea: almacenará los IDs de los sectores registrados.
 Tupla: almacenará los doce meses del año y los rangos (mínimo, máximo) de cada estado.
 Matriz numérica: almacenará los porcentajes de humedad de cada sector para cada mes. El valor -1 representará la ausencia de medición.
-Diccionario de rangos por cultivo: almacenará los rangos de humedad de soja, trigo, papa, zanahoria y batata.
+Diccionario de rangos por cultivo: almacenará los rangos de humedad de soja, trigo, papa, zanahoria y batata, cargados desde rangos.csv.
 Diccionario de cultivos por sector: relacionará cada ID de sector con su cultivo.
-Diccionario de usuarios: cargado desde el CSV, relacionará cada usuario con su contraseña (hash), rol y nombre.
+Diccionario de usuarios: cargado desde usuarios.csv, relacionará cada usuario con su contraseña (hash) y nombre.
 Diccionario acumulador: contabilizará los sectores por estado de humedad.
 Cadenas de caracteres: se utilizarán para almacenar y manipular los IDs, mensajes del sistema y estados de humedad.
 Variables numéricas: se utilizarán para porcentajes, promedios, cantidades, máximos y mínimos.
- -->
+
 La matriz permitirá relacionar cada sector con sus mediciones mensuales y será la principal estructura utilizada para realizar los cálculos y análisis.
 
 Archivos utilizados
 
-El sistema utilizará un archivo CSV para almacenar los usuarios:
+El sistema utilizará tres archivos CSV, leídos y escritos con el módulo csv:
 
-usuarios.csv → columnas: usuario, clave_hash, rol, nombre
-<!-- 
-El archivo se leerá con el módulo csv (csv.DictReader) al iniciar el programa. Las contraseñas se almacenarán como hash SHA-256 y nunca en texto plano. -->
+Archivo	Columnas	Contenido
+usuarios.csv	usuario, clave_hash, nombre	Usuarios habilitados. Las contraseñas se guardan como hash SHA-256.
+rangos.csv	cultivo, estado, minimo, maximo	Rangos de humedad de cada cultivo (una fila por cultivo y estado).
+mediciones.csv	id, cultivo, Ene, Feb, ..., Dic	Una fila por sector, con su cultivo y las 12 mediciones (-1 si no hay medición).
 
+Momento de lectura y escritura:
+
+Al iniciar el programa se leen usuarios.csv y rangos.csv para el login y la clasificación, y mediciones.csv para recuperar los sectores y mediciones guardados.
+Al confirmar la salida del sistema, se guardan automáticamente los sectores y mediciones en mediciones.csv.
+usuarios.csv y rangos.csv son de solo lectura para el programa.
 Fuera del alcance
 
 Queda fuera del alcance del proyecto la utilización de:
@@ -614,8 +604,9 @@ Sensores físicos de humedad.
 Dispositivos de riego automático.
 Conexión con hardware.
 Bases de datos.
-Persistencia de las sectores y mediciones: esta información se almacenará únicamente en memoria durante la ejecución del programa y se perderá al finalizar. Solo los usuarios se almacenan en archivo.
-Alta, baja o modificación de usuarios desde el sistema (el archivo de usuarios se administra por fuera del programa).
+Roles y permisos diferenciados entre usuarios.
+Alta, baja o modificación de usuarios y de rangos de cultivo desde el sistema (ambos archivos se administran por fuera del programa).
+Excepciones propias del sistema.
 Archivos JSON, archivos de texto, conjuntos, recursividad y pruebas unitarias, que podrán considerarse en una etapa posterior.
 Menú principal — Sistema de Control de Humedad
 
@@ -652,5 +643,5 @@ Informe de sectores que requieren atención.
 Ranking mensual de humedad.
 Volver al menú principal.
 6. Salir
-Confirmar salida.
+Confirmar salida (guarda las mediciones en mediciones.csv).
 Volver al menú principal.
