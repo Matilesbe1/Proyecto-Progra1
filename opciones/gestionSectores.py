@@ -1,4 +1,5 @@
 import funciones
+import re
 def llamarFunciones(num, matriz, lst_codigos,tpl_meses):
     if num==1:
         alta_sector(lst_codigos,matriz,tpl_meses)
@@ -10,20 +11,12 @@ def llamarFunciones(num, matriz, lst_codigos,tpl_meses):
 def valida_codigo(codigo):
     '''Recibe el codigo ingresado por el usuario.
     Valida que cumpla con el formato establecido y retorna un booleano dependiendo de si es válido o no.'''
-    if len(codigo) != 7:
-        print("Ha ingresado un código inválido.")
-        return False
-    elif not codigo[:2].isdigit():
-        print("Error. El prefijo debe contener 3 números.")
-        return False
-    elif codigo[3] != "-":
-        print("Error. El código debe estar separado unicamente por un guión (-).")
-        return False
-    elif not codigo[4:].isalpha():
-        print("Error. El sufijo debe contener 3 letras.")
-        return False
-    else:
+    patron = r"[0-9]{3}-[A-Z]{3}"
+    if re.match(patron,codigo):
         return True
+    else:
+        return False
+
 
 
 def alta_sector(lst_codigos,matriz,tpl_meses):
@@ -40,6 +33,7 @@ def alta_sector(lst_codigos,matriz,tpl_meses):
             print(f"✓ El sector se ha dado de alta con el codigo {codigo}.")
             lst_codigos.append(codigo.upper())
             matriz.append([-1 for humedad in range(12)])
+            cant += 1
 
             print("\nPresione ENTER para continuar...")
             input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
