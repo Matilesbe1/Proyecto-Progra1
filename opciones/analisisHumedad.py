@@ -65,7 +65,7 @@ def calcularPromedioGeneral(matriz):
     suma=0
     for i in range (len(matriz)):
         for j in range (len(matriz[i])):
-            if matriz[i][j]<=0:
+            if matriz[i][j]<0:
                 continue
             else:
                 cant+=1
@@ -82,7 +82,7 @@ def calcularPromedioGeneral(matriz):
 
 
 def obtenerMayorMedicion(matriz, lst_codigos, tpl_meses):
-    max = 0
+    max = -1
     mayores = []
     for i in range(len(matriz)):
         for j in range(len(matriz[i])):
@@ -93,7 +93,7 @@ def obtenerMayorMedicion(matriz, lst_codigos, tpl_meses):
                 mayores.append((i, j))
             else:
                 continue
-    if max == 0:
+    if max == -1:
         print("\n" + "=" * 55)
         print("           ⚠️  SIN MEDICIONES DISPONIBLES")
         print("=" * 55)
@@ -154,9 +154,9 @@ def sectoresAtencion(matriz, lst_codigos, tpl_meses):
     print("=" * 55)
     for i in range(len(matriz)):
         for j in range(len(matriz[i])):
-            if matriz[i][j] <= 0:
+            if matriz[i][j] < 0:
                 continue
-            if matriz[i][j] < 50:
+            if matriz[i][j] <= 50:
                 mes = tpl_meses[j][1]
                 print(f"  {lst_codigos[i]:<10} | {mes:<10} | {matriz[i][j]:>6.2f}%")
     print("=" * 55)
