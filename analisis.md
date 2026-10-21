@@ -51,13 +51,12 @@ Si se intenta actualizar una medición que no existe, el sistema informará al u
 Clasificación de la humedad según el cultivo
 Los rangos de humedad dependerán del cultivo de cada sector. Se almacenarán en el archivo rangos.csv y se cargarán al iniciar el programa en un diccionario donde la clave es el cultivo y el valor es otro diccionario con los rangos de cada estado:
 
-
-RANGOS_CULTIVO = {
-    "Soja":      {"Crítico": (0, 34), "Bajo": (35, 54), "Adecuado": (55, 80), "Excesivo": (81, 100)},
-    "Trigo":     {"Crítico": (0, 24), "Bajo": (25, 44), "Adecuado": (45, 70), "Excesivo": (71, 100)},
-    "Papa":      {"Crítico": (0, 34), "Bajo": (35, 59), "Adecuado": (60, 85), "Excesivo": (86, 100)},
-    "Zanahoria": {"Crítico": (0, 39), "Bajo": (40, 59), "Adecuado": (60, 80), "Excesivo": (81, 100)},
-    "Batata":    {"Crítico": (0, 29), "Bajo": (30, 49), "Adecuado": (50, 75), "Excesivo": (76, 100)},
+RANGOS_CULTIVO = { 
+        "Soja":         {"Crítico": (0, 19), "Bajo": (20, 39), "Adecuado": (40, 70), "Excesivo": (71, 100)},
+        "Trigo":        {"Crítico": (0, 19), "Bajo": (20, 39), "Adecuado": (40, 65), "Excesivo": (66, 100)},   
+        "Papa":         {"Crítico": (0, 24), "Bajo": (25, 44), "Adecuado": (45, 75), "Excesivo": (76, 100)},    
+        "Zanahoria":    {"Crítico": (0, 24), "Bajo": (25, 44), "Adecuado": (45, 75), "Excesivo": (76, 100)},
+        "Batata":       {"Crítico": (0, 19), "Bajo": (20, 39), "Adecuado": (40, 70), "Excesivo": (71, 100)},
 }
 
 Si el archivo rangos.csv no existe, el sistema lo creará con estos valores iniciales. Los rangos se modifican editando el archivo por fuera del programa. Se validará al cargarlo que los rangos de cada cultivo cubran de 0 a 100 sin superposiciones ni huecos.
