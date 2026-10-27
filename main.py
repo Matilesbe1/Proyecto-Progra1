@@ -1,9 +1,11 @@
 import funciones
+import login
 
 def main():
     matriz = [[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]]
     lst_codigos = ["123-ABC"]
     tpl_meses = [(1,"Ene"),(2,"Feb"),(3,"Mar"),(4,"Abr"),(5,"May"),(6,"Jun"),(7,"Jul"),(8,"Ago"),(9,"Sep"),(10,"Oct"),(11,"Nov"),(12,"Dic")]
-    funciones.menuPrincipal(matriz, lst_codigos,tpl_meses)
-    
+    if login.crear_usuarios():
+        if login.login():
+            funciones.menuPrincipal(matriz, lst_codigos, tpl_meses)
 main()
