@@ -1,6 +1,6 @@
 def abrirArchivoRangos():
     try:
-        arch=open('Documentacion/rango_cultivos.csv', mode='wt')
+        arch=open('Documentacion/rango_cultivos.csv', mode='rt')
     except OSError as error:
         print("Error al abrir el archivo:", error)
     except FileNotFoundError:
@@ -16,7 +16,7 @@ def cerrarArchivoRangos(arch):
 
 def abrirArchivoLstCultivos():
     try:
-        arch=open('Documentacion/lista_cultivos.csv', mode='wt')
+        arch=open('Documentacion/lista_cultivos.csv', mode='rt')
     except OSError as error:
         print("Error al abrir el archivo:", error)
     except FileNotFoundError:

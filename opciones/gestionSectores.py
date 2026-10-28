@@ -14,7 +14,7 @@ def valida_codigo(codigo):
     Valida que cumpla con el formato establecido y retorna un booleano dependiendo de si es válido o no.'''
     patron = r"[0-9]{3}-[A-Z]{3}"
     if re.match(patron,codigo):
-        arch=configuracion.cultivos.AbrirArchivoRangos()
+        arch=configuracion.cultivos.abrirArchivoRangos()
         linea=arch.readline()
         for linea in arch:
             datos = linea.strip().split(";")
