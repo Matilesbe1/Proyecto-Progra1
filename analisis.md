@@ -5,22 +5,20 @@ El proyecto consiste en desarrollar un sistema para registrar, consultar y anali
 El sistema permitirá registrar hasta un máximo de 50 sectores. Cada sector estará identificado mediante un ID único y tendrá asociado un cultivo.
 Acceso al sistema (login)
 Al iniciar el programa, el usuario deberá ingresar su usuario y contraseña.
-Los usuarios se almacenarán en el archivo usuarios.csv con los siguientes datos: usuario, contraseña (almacenada como hash, nunca en texto plano) y nombre completo.
-El usuario deberá cumplir un formato validado con expresiones regulares: entre 4 y 15 caracteres, solo letras, números y guion bajo.
-La contraseña deberá cumplir un formato validado con expresiones regulares: mínimo 6 caracteres, con al menos una letra y un número.
+El usuario ya estará predefinido y se almacenará en el archivo usuarios.csv con los siguientes datos: usuario,contraseña 
 El usuario tendrá un máximo de 3 intentos. Si los agota, el programa finalizará.
 Si el archivo de usuarios no existe, el sistema lo creará con un usuario inicial.
-Todos los usuarios que inicien sesión tendrán acceso a las mismas funcionalidades. No existen roles ni permisos diferenciados.
-Identificación de los sectores
+No existen roles ni permisos diferenciados.
+### Identificación de los sectores
 Cada sector tendrá un ID único compuesto por:
 Tres dígitos numéricos.
 Un guion.
 Tres letras correspondientes a una abreviación identificatoria.
 Por ejemplo: 123-PAP
-El ID se validará mediante una expresión regular (\d{3}-[A-Za-z]{3}). La abreviación deberá estar compuesta por exactamente tres letras y se almacenará en mayúsculas. El sistema validará que el ID cumpla con este formato y que no se encuentre registrado previamente.
+El ID se validará mediante una expresión regular ([0-9]{3}-[A-Za-z]{3}). La abreviación deberá estar compuesta por exactamente tres letras y se almacenará en mayúsculas. El sistema validará que el ID cumpla con este formato y que no se encuentre registrado previamente.
 Además del ID, cada sector tendrá asociado un cultivo, que deberá ser uno de los definidos en el archivo de rangos: soja, trigo, papa, zanahoria y batata.
 El usuario podrá continuar registrando sectores mientras no se haya alcanzado el límite máximo de 50 sectores. Para finalizar la carga de sectores podrá ingresar -1.
-Organización de las mediciones
+### Organización de las mediciones
 Las mediciones de humedad se almacenarán en una matriz numérica donde:
 Las filas representan los sectores del campo.
 Las columnas representan los meses del año.
@@ -35,7 +33,7 @@ Por lo tanto:
 0 a 100 → porcentaje de humedad registrado.
 El sistema permitirá que existan sectores o meses sin mediciones. Las posiciones con valor -1 no serán consideradas para realizar cálculos.
 Si no existen mediciones suficientes para realizar un determinado cálculo, el sistema informará que no hay datos disponibles y permitirá continuar utilizando el programa.
-Carga y actualización de mediciones
+### Carga y actualización de mediciones
 El usuario podrá cargar o actualizar una medición indicando:
 ID del sector.
 Mes correspondiente.
@@ -48,10 +46,8 @@ El porcentaje de humedad se encuentre entre 0 % y 100 %.
 Los campos obligatorios no estén vacíos.
 Si el sector y el mes seleccionados ya poseen una medición, el sistema permitirá reemplazar el valor anterior por el nuevo valor ingresado.
 Si se intenta actualizar una medición que no existe, el sistema informará al usuario y permitirá continuar. En ese caso, la medición podrá registrarse como una nueva medición si corresponde a un sector y mes válidos.
-Clasificación de la humedad según el cultivo
+### Clasificación de la humedad según el cultivo
 Los rangos de humedad dependerán del cultivo de cada sector. Se almacenarán en el archivo rangos.csv y se cargarán al iniciar el programa en un diccionario donde la clave es el cultivo y el valor es otro diccionario con los rangos de cada estado:
-
-
 RANGOS_CULTIVO = {
     "Soja":      {"Crítico": (0, 34), "Bajo": (35, 54), "Adecuado": (55, 80), "Excesivo": (81, 100)},
     "Trigo":     {"Crítico": (0, 24), "Bajo": (25, 44), "Adecuado": (45, 70), "Excesivo": (71, 100)},
@@ -75,36 +71,36 @@ Los estados crítico y bajo serán considerados sectores que requieren atención
 
 El estado excesivo será mostrado como parte de la clasificación de humedad, pero no será considerado dentro de los sectores que requieren atención en esta etapa.
 
-Procesamiento y análisis de los datos
+### Procesamiento y análisis de los datos
 
 El sistema permitirá realizar diferentes cálculos sobre las mediciones almacenadas.
 
 Se podrá obtener:
 
-Promedio de humedad de un sector, considerando todas las mediciones disponibles de dicho sector.
-Promedio de humedad del campo para un mes determinado, considerando las mediciones disponibles de todos los sectores.
-Promedio general de humedad del campo, considerando todas las mediciones registradas.
-Mayor medición de humedad registrada.
-Menor medición de humedad registrada.
+- Promedio de humedad de un sector, considerando todas las mediciones disponibles de dicho sector.
+- Promedio de humedad del campo para un mes determinado, considerando las mediciones disponibles de todos los sectores.
+- Promedio general de humedad del campo, considerando todas las mediciones registradas.
+- Mayor medición de humedad registrada.
+- Menor medición de humedad registrada.
 
-Criterio unificado para mayor y menor medición: en todas las funcionalidades del sistema (análisis de humedad e informe general) se informará una única medición para la mayor y una única medición para la menor, sin mostrar empates. Si existen varias mediciones que coinciden con el valor máximo o mínimo, se informará únicamente la primera encontrada, recorriendo los sectores en el orden en que fueron registrados y los meses de enero a diciembre. Para cada una se informará:
+Criterio unificado para mayor y menor medición: en todas las funcionalidades del sistema (análisis de humedad e informe general) se informarán todos los valores máximos y/o minimos en casos de haber empates. Para cada una se informará:
 
-Porcentaje de humedad.
-Sector al que corresponde.
-Mes en el que fue registrada.
+- Porcentaje de humedad.
+- Sector al que corresponde.
+- Mes en el que fue registrada.
 
 Cuando no existan mediciones para realizar alguno de estos cálculos, el sistema informará que no existen datos disponibles.
 
 Además, para un mes seleccionado, el sistema podrá contabilizar cuántos sectores se encuentran en cada estado de humedad, utilizando un diccionario como acumulador:
 
-Cantidad de sectores en estado crítico.
-Cantidad de sectores en estado bajo.
-Cantidad de sectores en estado adecuado.
-Cantidad de sectores en estado excesivo.
+- Cantidad de sectores en estado crítico.
+- Cantidad de sectores en estado bajo.
+- Cantidad de sectores en estado adecuado.
+- Cantidad de sectores en estado excesivo.
 
 También se podrá generar un listado de los sectores que requieren atención. Este listado incluirá únicamente aquellos cuya humedad se encuentre en estado crítico o bajo durante el mes seleccionado, indicando el cultivo de cada sector.
 
-Ranking de sectores
+### Ranking de sectores
 
 El sistema permitirá generar, para un mes determinado, un ranking de los sectores ordenados según su porcentaje de humedad, desde el menor hasta el mayor.
 
@@ -138,30 +134,32 @@ Por otra parte, la opción “Consultar un sector” permitirá consultar inform
 
 De esta manera, la búsqueda y la consulta tendrán finalidades diferentes y no representarán la misma funcionalidad.
 
-Informes
+### Informes
 
 El sistema contará con los siguientes informes:
 
-Informe general del campo
+#### Informe general del campo
 
 Mostrará información general sobre el estado de los datos registrados, incluyendo:
 
-Cantidad de sectores registrados.
-Cantidad de mediciones cargadas.
-Promedio general de humedad.
-Mayor medición registrada, indicando sector y mes (una sola, según el criterio unificado).
-Menor medición registrada, indicando sector y mes (una sola, según el criterio unificado).
-Informe de un sector
+Cantidad de sectores registrados.\
+Cantidad de mediciones cargadas.\
+Promedio general de humedad.\
+Mayor medición registrada, indicando sector y mes (una sola, según el criterio unificado).\
+Menor medición registrada, indicando sector y mes (una sola, según el criterio unificado).\
+
+#### Informe de un sector
 
 Mostrará información correspondiente a un sector seleccionado, incluyendo:
 
-ID del sector.
-Cultivo del sector.
-Mediciones registradas.
-Meses que poseen mediciones.
-Promedio de humedad del sector.
-Estado de humedad de sus mediciones, según los rangos de su cultivo.
-Informe mensual
+ID del sector.\
+Cultivo del sector.\
+Mediciones registradas.\
+Meses que poseen mediciones.\
+Promedio de humedad del sector.\
+Estado de humedad de sus mediciones, según los rangos de su cultivo.\
+
+#### Informe mensual
 
 Mostrará información correspondiente a un mes seleccionado, incluyendo:
 
@@ -172,12 +170,12 @@ Informe de sectores que requieren atención
 
 Mostrará los sectores que, durante un mes seleccionado, presenten un estado:
 
-Crítico.
+Crítico.\
 Bajo.
 
 Los sectores con estado excesivo no serán incluidos en este informe, ya que en esta etapa serán considerados únicamente dentro de la clasificación general de humedad.
 
-Ranking mensual de humedad
+#### Ranking mensual de humedad
 
 Mostrará los sectores que poseen una medición para el mes seleccionado, ordenados desde el menor hasta el mayor porcentaje de humedad.
 
@@ -187,18 +185,18 @@ Antes de acceder al menú, el usuario deberá iniciar sesión. El sistema contar
 
 Desde el menú se podrá acceder a las distintas funcionalidades del sistema:
 
-Gestión de sectores.
-Gestión de mediciones.
-Consultas.
-Análisis de humedad.
-Informes.
-Salida del sistema.
+Gestión de sectores.\
+Gestión de mediciones.\
+Consultas.\
+Análisis de humedad.\
+Informes.\
+Salida del sistema.\
 
 Se realizarán validaciones para evitar que datos incorrectos provoquen la finalización del programa.
 
 Ante cualquier dato inválido, el sistema mostrará un mensaje indicando el error y permitirá al usuario continuar utilizando el programa sin finalizar su ejecución.
 
-Manejo de excepciones
+### Manejo de excepciones
 
 El sistema utilizará únicamente dos excepciones estándar de Python:
 
@@ -207,13 +205,13 @@ OSError: se utilizará ante cualquier problema con los archivos CSV. Incluye los
 
 Todos los errores se informarán con un mensaje claro y el programa continuará en funcionamiento, salvo el agotamiento de los 3 intentos de login.
 
-Datos y estructuras utilizadas
+### Datos y estructuras utilizadas
 
 La información del sistema será administrada mediante listas, matrices, tuplas, diccionarios y cadenas de caracteres, asignando cada estructura a la información que corresponda.
 
 La matriz permitirá relacionar cada sector con sus mediciones mensuales y será la principal estructura utilizada para realizar los cálculos y análisis.
 
-Archivos utilizados
+### Archivos utilizados
 
 El sistema utilizará tres archivos CSV, leídos y escritos con el módulo csv:
 
@@ -222,12 +220,13 @@ usuarios.csv	usuario, clave_hash, nombre	Usuarios habilitados.
 rangos.csv	cultivo, estado, minimo, maximo	Rangos de humedad de cada cultivo (una fila por cultivo y estado).
 mediciones.csv	id, cultivo, Ene, Feb, ..., Dic	Una fila por sector, con su cultivo y las 12 mediciones (-1 si no hay medición).
 
-Momento de lectura y escritura:
+### Momento de lectura y escritura:
 
 Al iniciar el programa se leen usuarios.csv y rangos.csv para el login y la clasificación, y mediciones.csv para recuperar los sectores y mediciones guardados.
 Al confirmar la salida del sistema, se guardan automáticamente los sectores y mediciones en mediciones.csv.
 usuarios.csv y rangos.csv son de solo lectura para el programa.
-Fuera del alcance
+
+### Fuera del alcance
 
 Queda fuera del alcance del proyecto la utilización de:
 
