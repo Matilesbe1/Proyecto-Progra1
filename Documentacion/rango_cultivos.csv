@@ -1,7 +1,21 @@
-RANGOS_CULTIVO = { 
-    "Soja":         {"Crítico": (0, 19), "Bajo": (20, 39), "Adecuado": (40, 70), "Excesivo": (71, 100)},
-    "Trigo":        {"Crítico": (0, 19), "Bajo": (20, 39), "Adecuado": (40, 65), "Excesivo": (66, 100)},   
-    "Papa":         {"Crítico": (0, 24), "Bajo": (25, 44), "Adecuado": (45, 75), "Excesivo": (76, 100)},    
-    "Zanahoria":    {"Crítico": (0, 24), "Bajo": (25, 44), "Adecuado": (45, 75), "Excesivo": (76, 100)},
-    "Batata":       {"Crítico": (0, 19), "Bajo": (20, 39), "Adecuado": (40, 70), "Excesivo": (71, 100)},
-}
+cultivo,nivel,minimo,maximo
+Soja,Crítico,0,19
+Soja,Bajo,20,39
+Soja,Adecuado,40,70
+Soja,Excesivo,71,100
+Trigo,Crítico,0,19
+Trigo,Bajo,20,39
+Trigo,Adecuado,40,65
+Trigo,Excesivo,66,100
+Papa,Crítico,0,24
+Papa,Bajo,25,44
+Papa,Adecuado,45,75
+Papa,Excesivo,76,100
+Zanahoria,Crítico,0,24
+Zanahoria,Bajo,25,44
+Zanahoria,Adecuado,45,75
+Zanahoria,Excesivo,76,100
+Batata,Crítico,0,19
+Batata,Bajo,20,39
+Batata,Adecuado,40,70
+Batata,Excesivo,71,100
