@@ -54,9 +54,11 @@ def cargar_medicion(matriz,lst_codigos,tpl_meses):
         if valida_id_y_mes(lst_codigos,mes,id_sector):
             humedad = pide_humedad()
             i_mes,i_id = indice_sector_mes(lst_codigos,mes,id_sector)
+            if matriz[i_id][i_mes] != -1:
+                print(f" ✓ Se ha actulizado el valor del sector {id_sector} en el mes {tpl_meses[mes][1]} de {matriz[i_id][i_mes]} a: {humedad}")
+            else:
+                print(f" ✓ Se ha escrito el valor del sector {id_sector} en el mes {tpl_meses[mes][1]} a: {humedad}")
             matriz[i_id][i_mes] = humedad
-            print(f" ✓ Se ha actulizado el valor del sector {id_sector} en el mes {mes} a: {humedad}")
-
             print("\nPresione ENTER para continuar...")
             input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
         else:
