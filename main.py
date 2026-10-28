@@ -1,5 +1,5 @@
 import funciones
-import login
+import configuracion.login as login
 
 def main():
     matriz = [[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]]
