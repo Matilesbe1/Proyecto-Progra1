@@ -1,5 +1,6 @@
 import funciones
 import re
+import configuracion.cultivos
 def llamarFunciones(num, matriz, lst_codigos,tpl_meses):
     if num==1:
         alta_sector(lst_codigos,matriz,tpl_meses)
@@ -13,34 +14,34 @@ def valida_codigo(codigo):
     Valida que cumpla con el formato establecido y retorna un booleano dependiendo de si es válido o no.'''
     patron = r"[0-9]{3}-[A-Z]{3}"
     if re.match(patron,codigo):
-        return True
+        arch=configuracion.cultivos.AbrirArchivoRangos()
+        linea=arch.readline()
+        for linea in arch:
+            datos = linea.strip().split(";")
+            cultivo = datos[0]
+            if codigo[4:7]==cultivo[1:4].upper():
+                arch1=configuracion.cultivos.abrirArchivoLstCultivos()
+                arch1.write(codigo)
+                return True
     else:
         return False
 
 
-
-def alta_sector(lst_codigos,matriz,tpl_meses):
-    '''Recibe por parametro la lista de codigos y la matriz.
-        Se pide al usuario que ingrese el codigo, se valida llamando a la funcion valida_codigo() y en caso correcto, se da por alta en la matriz y en la lista.En caso invalido, se pide que se vuelva a ingresar.
-        Las condiciones de corte son: que se ingrese -1 o qeu se llegue al limite de 50 sectores.'''
-    
-    print("IMPORTANTE: EL código debe estar compuesto por: tres números, un guión (-) y tres letras.")
+def alta_sector(lst_codigos, matriz, tpl_meses):
+    print("IMPORTANTE: El código debe estar compuesto por tres números, un guión y tres letras.")
     print("Por ejemplo: 123-ABC")
-    codigo = input("Ingrese el codigo (-1 finaliza): ").upper()
-    cant = 0
-    while codigo != "-1" and cant <= 50:
+    codigo=input("Ingrese el código (-1 finaliza): ").upper()
+    cant = len(lst_codigos)
+    while codigo != "-1" and cant < 50:
         if valida_codigo(codigo) and codigo not in lst_codigos:
-            print(f"✓ El sector se ha dado de alta con el codigo {codigo}.")
-            lst_codigos.append(codigo.upper())
+            print(f"✓ El sector se ha dado de alta con el código {codigo}.")
+            lst_codigos.append(codigo)
             matriz.append([-1 for humedad in range(12)])
-            cant += 1
-
-            print("\nPresione ENTER para continuar...")
-            input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
+            cant+=1
         else:
-            print("✕ El código ingresado es inválido o está repetido. Vuelva a intentarlo.")
-        codigo = input("Ingrese el codigo (-1 finaliza): ").upper()
-    funciones.SubOpciones(1, matriz, lst_codigos,tpl_meses)
+            print("✕ El código ingresado es inválido o está repetido.")
+        codigo = input("Ingrese el código (-1 finaliza): ").upper()
+    funciones.SubOpciones(1, matriz, lst_codigos, tpl_meses)
     return None
 
 
