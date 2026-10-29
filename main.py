@@ -1,9 +1,9 @@
 import funciones
 import configuracion.login as login
+import configuracion.cultivos as cultivos
 
 def main():
-    matriz = [[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]]
-    lst_codigos = ["123-ABC"]
+    matriz, lst_codigos = cultivos.extraccionMatriz()
     tpl_meses = [(1,"Ene"),(2,"Feb"),(3,"Mar"),(4,"Abr"),(5,"May"),(6,"Jun"),(7,"Jul"),(8,"Ago"),(9,"Sep"),(10,"Oct"),(11,"Nov"),(12,"Dic")]
     if login.crear_usuarios():
         if login.login():
