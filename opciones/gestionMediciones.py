@@ -24,7 +24,7 @@ def pide_datos():
     Retorna estos dos valores.'''
     print("Recuerde el formato de los IDs: 123-ABC.")
     id_sector = input("Ingrese el ID del sector al que quiere acceder: ").upper()
-    print("Ahora, ingresará el mes a actualizar.\nEstos van de 1 a 12, siendo 1 --> Enero y 12 --> Febrero")
+    print("Ahora, ingresará el mes a actualizar.\nEstos van de 1 a 12, siendo 1 --> Enero y 12 --> Diciembre")
     mes = int(input("Ingrese el mes (1-12): "))
     return id_sector,mes
 
@@ -54,9 +54,11 @@ def cargar_medicion(matriz,lst_codigos,tpl_meses):
         if valida_id_y_mes(lst_codigos,mes,id_sector):
             humedad = pide_humedad()
             i_mes,i_id = indice_sector_mes(lst_codigos,mes,id_sector)
+            if matriz[i_id][i_mes] != -1:
+                print(f" ✓ Se ha actulizado el valor del sector {id_sector} en el mes {tpl_meses[mes][1]} de {matriz[i_id][i_mes]} a: {humedad}")
+            else:
+                print(f" ✓ Se ha escrito el valor del sector {id_sector} en el mes {tpl_meses[mes][1]} a: {humedad}")
             matriz[i_id][i_mes] = humedad
-            print(f" ✓ Se ha actulizado el valor del sector {id_sector} en el mes {mes} a: {humedad}")
-
             print("\nPresione ENTER para continuar...")
             input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
         else:

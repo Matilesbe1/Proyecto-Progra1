@@ -73,61 +73,81 @@ def calcularPromedioGeneral(matriz):
     suma=0
     for i in range (len(matriz)):
         for j in range (len(matriz[i])):
-            if matriz[i][j]==0:
+            if matriz[i][j]<0:
                 continue
             else:
                 cant+=1
                 suma+=matriz[i][j]
-    promedio=suma/cant
-    print("\n" + "=" * 55)
-    print(f"💧 PROMEDIO GENERAL DE HUMEDAD: {promedio:.2f}%")
-    print("=" * 55)
+    if cant==0:
+        print("\n" + "=" * 55)
+        print("           ⚠️  SIN MEDICIONES DISPONIBLES")
+        print("=" * 55)
+        return False
+    else:
+        promedio=suma/cant
+        print("\n" + "=" * 55)
+        print(f"💧 PROMEDIO GENERAL DE HUMEDAD: {promedio:.2f}%")
+        print("=" * 55)
+        return True
 
 
 def obtenerMayorMedicion(matriz, lst_codigos, tpl_meses):
-    max=0
-    index_cod=0
-    index_mes=0
-    for i in range (len(matriz)):
-        for j in range (len(matriz[i])):
-            if matriz[i][j]>max:
-                max=matriz[i][j]
-                index_cod=i
-                index_mes=j
+    max = -1
+    mayores = []
+    for i in range(len(matriz)):
+        for j in range(len(matriz[i])):
+            if matriz[i][j] > max:
+                max = matriz[i][j]
+                mayores = [(i, j)]
+            elif matriz[i][j] == max:
+                mayores.append((i, j))
             else:
                 continue
-    n, mes=tpl_meses[index_mes]
-    print("\n" + "=" * 55)
-    print("           💧 MAYOR HUMEDAD REGISTRADA")
-    print("=" * 55)
-    print(f"  Sector : {lst_codigos[index_cod]}")
-    print(f"  Mes    : {mes}")
-    print(f"  Humedad: {max:.2f}%")
-    print("=" * 55)
+    if max == -1:
+        print("\n" + "=" * 55)
+        print("           ⚠️  SIN MEDICIONES DISPONIBLES")
+        print("=" * 55)
+    else:
+        print("\n" + "=" * 55)
+        print("           💧 MAYOR HUMEDAD REGISTRADA")
+        print("=" * 55)
+        for i, j in mayores:
+            n, mes = tpl_meses[j]
+            print(f"  Sector : {lst_codigos[i]}")
+            print(f"  Mes    : {mes}")
+            print(f"  Humedad: {max:.2f}%")
+            print("-" * 55)
+        print("=" * 55)
+
+
 
 def obtenerMenorMedicion(matriz, lst_codigos, tpl_meses):
-    min=matriz[0][0]
-    index_cod=0
-    index_mes=0
-    for i in range (len(matriz)):
-        for j in range (len(matriz[i])):
-            if matriz[i][j]==0:
+    min = 500
+    menores = []
+    for i in range(len(matriz)):
+        for j in range(len(matriz[i])):
+            if matriz[i][j] < 0:
                 continue
-            else:
-                if matriz[i][j]<min:
-                    min=matriz[i][j]
-                    index_cod=i
-                    index_mes=j
-                else:
-                    continue
-    n, mes=tpl_meses[index_mes]
-    print("\n" + "=" * 55)
-    print("           💧 MENOR HUMEDAD REGISTRADA")
-    print("=" * 55)
-    print(f"  Sector : {lst_codigos[index_cod]}")
-    print(f"  Mes    : {mes}")
-    print(f"  Humedad: {min:.2f}%")
-    print("=" * 55)
+            if matriz[i][j] < min:
+                min = matriz[i][j]
+                menores = [(i, j)]
+            elif matriz[i][j] == min:
+                menores.append((i, j))
+    if min == 500:
+        print("\n" + "=" * 55)
+        print("           ⚠️  SIN MEDICIONES DISPONIBLES")
+        print("=" * 55)
+    else:
+        print("\n" + "=" * 55)
+        print("           💧 MENOR HUMEDAD REGISTRADA")
+        print("=" * 55)
+        for i, j in menores:
+            n, mes = tpl_meses[j]
+            print(f"  Sector : {lst_codigos[i]}")
+            print(f"  Mes    : {mes}")
+            print(f"  Humedad: {min:.2f}%")
+            print("-" * 55)
+        print("=" * 55)
 
 def contabilizarSectores(matriz, lst_codigos, tpl_meses):
     cant=0
@@ -144,9 +164,9 @@ def sectoresAtencion(matriz, lst_codigos, tpl_meses):
     print("=" * 55)
     for i in range(len(matriz)):
         for j in range(len(matriz[i])):
-            if matriz[i][j] == 0:
+            if matriz[i][j] < 0:
                 continue
-            if matriz[i][j] < 50:
+            if matriz[i][j] <= 50:
                 mes = tpl_meses[j][1]
                 print(f"  {lst_codigos[i]:<10} | {mes:<10} | {matriz[i][j]:>6.2f}%")
     print("=" * 55)

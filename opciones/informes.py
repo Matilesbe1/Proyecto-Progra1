@@ -1,4 +1,5 @@
 import funciones
+
 def llamarFunciones (num,matriz,lst_codigos,tpl_meses):
     if num == 1:
         informe_general_campo(matriz,lst_codigos,tpl_meses)
@@ -35,7 +36,6 @@ def pedir_mes_valido(tpl_meses):
     
     return indice_mes, nombre_mes
 
-
 def informe_general_campo(matriz,lst_codigos,tpl_meses):
     sectores_registrados = len(lst_codigos) #cantidad de sectores registrados
 
@@ -56,6 +56,7 @@ def informe_general_campo(matriz,lst_codigos,tpl_meses):
     indice_sector_max = -1
     indice_mes_max = -1
 
+    
     minHumedad = 101
     indice_sector_min = -1
     indice_mes_min = -1
@@ -73,36 +74,39 @@ def informe_general_campo(matriz,lst_codigos,tpl_meses):
                     minHumedad = matriz[f][c]
                     indice_mes_min = c
                     indice_sector_min = f
-
-
-    nombre_sector_max = lst_codigos[indice_sector_max] 
-    nombre_mes_max = tpl_meses[indice_mes_max][1]
-    nombre_sector_min = lst_codigos[indice_sector_min]
-    nombre_mes_min = tpl_meses[indice_mes_min][1]
-
-
+    
     # 2. Impresión con la estética del menú
+
     print('\n╔══════════════════════════════════════╗')
     print('║      📊 INFORME GENERAL DEL CAMPO    ║')
     print('╠══════════════════════════════════════╣')
     print(f'║ Sectores registrados: {sectores_registrados:<14} ║')
-    print(f'║ Mediciones cargadas: {cantidad_mediciones:<15} ║')
-    print(f'║ Promedio general: {promedio_general:<14.2f}     ║')
-    print('╠══════════════════════════════════════╣')
-    print('║ 🔴 MAYOR MEDICIÓN                    ║')
-    print(f'║ Humedad: {maxHumedad:<4} %                      ║')
-    print(f'║ Sector: {nombre_sector_max:<28} ║')
-    print(f'║ Mes: {nombre_mes_max:<31} ║')
-    print('╠══════════════════════════════════════╣')
-    print('║ 🔵 MENOR MEDICIÓN                    ║')
-    print(f'║ Humedad: {minHumedad:<2}%                         ║')
-    print(f'║ Sector: {nombre_sector_min:<28} ║')
-    print(f'║ Mes: {nombre_mes_min:<31} ║')
+
+    if cantidad_mediciones == 0:
+        print('║ Mediciones: No hay mediciones        ║')
+        print('║ disponibles para mostrar.            ║')
+    else:
+        nombre_sector_max = lst_codigos[indice_sector_max] 
+        nombre_mes_max = tpl_meses[indice_mes_max][1]
+        nombre_sector_min = lst_codigos[indice_sector_min]
+        nombre_mes_min = tpl_meses[indice_mes_min][1]
+        
+        print(f'║ Mediciones cargadas: {cantidad_mediciones:<15} ║')
+        print(f'║ Promedio general: {promedio_general:<14.2f}     ║')
+
+        print('╠══════════════════════════════════════╣')
+        print('║ 🔴 MAYOR MEDICIÓN                    ║')
+        print(f'║ Humedad: {maxHumedad:<4} %                    ║')
+        print(f'║ Sector: {nombre_sector_max:<28} ║')
+        print(f'║ Mes: {nombre_mes_max:<31} ║')
+
+        print('╠══════════════════════════════════════╣')
+        print('║ 🔵 MENOR MEDICIÓN                    ║')
+        print(f'║ Humedad: {minHumedad:<2}%                      ║')
+        print(f'║ Sector: {nombre_sector_min:<28} ║')
+        print(f'║ Mes: {nombre_mes_min:<31} ║')
+
     print('╚══════════════════════════════════════╝')
-
-
-
-
 
 def informe_sector(matriz,lst_codigos,tpl_meses):
     sector = input("Ingrese el sector:").upper()
@@ -145,9 +149,6 @@ def informe_sector(matriz,lst_codigos,tpl_meses):
 
     print('╚══════════════════════════════════════╝')
 
-    
-
-
 def informe_mensual(matriz,lst_codigos,tpl_meses):
     indice_mes, nombre_mes = pedir_mes_valido(tpl_meses)
 
@@ -183,8 +184,6 @@ def informe_mensual(matriz,lst_codigos,tpl_meses):
             print(f'║  • {linea:<33} ║')
 
     print('╚══════════════════════════════════════╝')
-
-
 
 def sectores_atencion(matriz,lst_codigos,tpl_meses):
     indice_mes, nombre_mes = pedir_mes_valido(tpl_meses)
@@ -247,7 +246,3 @@ def ranking_mensual_humedad(matriz,lst_codigos,tpl_meses):
             puesto += 1
 
     print('╚══════════════════════════════════════╝')
-
-    
-
-
