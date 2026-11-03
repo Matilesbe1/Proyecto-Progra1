@@ -2,10 +2,10 @@ import re
 
 def crear_usuarios():
     try:
-        archivo = open("login.csv", mode="rt")
+        archivo = open("Documentacion/login.csv", mode="rt")
     except FileNotFoundError:
         try:
-            archivo = open("login.csv", mode="wt")
+            archivo = open("Documentacion/login.csv", mode="wt")
         except OSError:
             print("Error al crear el archivo.")
             return False
@@ -32,7 +32,7 @@ def login():
             print("Formato de contraseña inválido.")
         else:
             try:
-                archivo = open("login.csv", mode="rt")
+                archivo = open("Documentacion/login.csv", mode="rt")
             except OSError:
                 print("Error al abrir el archivo de usuarios.")
                 return False
