@@ -14,9 +14,17 @@ def llamarFunciones(num, matriz, lst_codigos, tpl_meses):
         contabilizarSectores(matriz, lst_codigos, tpl_meses)
     elif num==7:
         sectoresAtencion(matriz, lst_codigos, tpl_meses)
-    print("\nPresione ENTER para continuar...")
-    input()
-    funciones.SubOpciones(4, matriz, lst_codigos, tpl_meses)
+    print("\nPresione 0 para continuar, 1 para finalizar...")
+    numero = int(input())
+    while numero > 1 or numero < 0:
+        print("Indique el numero correctamente")
+        numero = int(input("Vuelva a ingresar el numero: "))
+    if numero == 0:
+        funciones.SubOpciones(4, matriz, lst_codigos, tpl_meses)
+        return True
+    else:
+        print("finalizando el programa...")
+        return False
 
 def promedio_sector(sectores, matriz,tpl_meses):
     sector = input("Indique el ID del sector: ").upper()

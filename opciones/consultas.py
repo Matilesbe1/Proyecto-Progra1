@@ -7,9 +7,17 @@ def llamarfunciones(lst_codigos, matriz, num, tpl_meses):
     elif num == 3:
         consultar_estado_humedad(lst_codigos, matriz)
 
-    print("\nPresione ENTER para continuar...")
-    input()
-    funciones.SubOpciones(3,matriz, lst_codigos, tpl_meses)
+    print("\nPresione 0 para continuar, 1 para finalizar...")
+    numero = int(input())
+    while numero > 1 or numero < 0:
+        print("Indique el numero correctamente")
+        numero = int(input("Vuelva a ingresar el numero: "))
+    if numero == 0:
+        funciones.SubOpciones(3,matriz, lst_codigos, tpl_meses)        
+        return True
+    else:
+        print("finalizando el programa...")
+        return False
     
 def consultar_sector(sectores, matriz):
     sector = input("Ingrese el ID del sector a consultar: ").upper()
@@ -33,10 +41,11 @@ def consultar_mediciones_mes(matriz):
     mes -= 1
 
     resultado = [c[mes] for c in matriz if len(c) > mes]
-    mediciones=False
-    for r in range (len(resultado)):
-        if resultado[r]!=-1:
-            mediciones=True
+    print("\n" + "=" * 90)
+    print(f"Las mediciones del mes numero {mes+1} son de:", end="")
+    for i in resultado:
+        print(i, end="|")
+    print("\n" + "=" * 90)
 
     if mediciones==True:
         print("\n" + "=" * 90)
@@ -78,9 +87,7 @@ def consultar_estado_humedad(sectores, matriz):
     else:
         estado = "EXCESIVO"
     
-    print("=" * 18)
+    print("=" * 30)
     print(f"ESTADO: {estado}")
-    print("=" * 18)
-
-
+    print("=" * 30)
 
