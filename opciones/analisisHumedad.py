@@ -74,11 +74,13 @@ def calcularPromedioGeneral(matriz):
         print("\n" + "=" * 55)
         print("           ⚠️  SIN MEDICIONES DISPONIBLES")
         print("=" * 55)
+        return False
     else:
         promedio=suma/cant
         print("\n" + "=" * 55)
         print(f"💧 PROMEDIO GENERAL DE HUMEDAD: {promedio:.2f}%")
         print("=" * 55)
+        return True
 
 
 def obtenerMayorMedicion(matriz, lst_codigos, tpl_meses):
