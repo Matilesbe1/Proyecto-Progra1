@@ -1,39 +1,33 @@
 import funciones
 import re
 import configuracion.cultivos
-def llamarFunciones(num, matriz, lst_codigos,tpl_meses):
+def llamarFunciones(num, matriz, lst_codigos,tpl_meses, rangos):
     if num==1:
-        alta_sector(lst_codigos,matriz,tpl_meses)
+        alta_sector(lst_codigos,matriz,tpl_meses, rangos)
     elif num==2:
         busca_id(matriz,lst_codigos,tpl_meses)
     elif num==3:
         mostrar_matriz(matriz,lst_codigos,tpl_meses)
 
-def valida_codigo(codigo):
+def valida_codigo(codigo, lst_codigos, matriz, rangos):  #VER RANGOS 
     '''Recibe el codigo ingresado por el usuario.
     Valida que cumpla con el formato establecido y retorna un booleano dependiendo de si es válido o no.'''
     patron = r"[0-9]{3}-[A-Z]{3}"
     if re.match(patron,codigo):
-        arch=configuracion.cultivos.abrirArchivoRangos()
-        linea=arch.readline()
-        for linea in arch:
-            datos = linea.strip().split(";")
-            cultivo = datos[0]
-            if codigo[4:7]==cultivo[1:4].upper():
-                arch1=configuracion.cultivos.abrirArchivoLstCultivos()
-                arch1.write(codigo)
+        for rango in rangos:
+            if codigo[4:7].upper()==rango[0:3].upper():
                 return True
     else:
         return False
 
 
-def alta_sector(lst_codigos, matriz, tpl_meses):
+def alta_sector(lst_codigos, matriz, tpl_meses, rangos):
     print("IMPORTANTE: El código debe estar compuesto por tres números, un guión y tres letras.")
     print("Por ejemplo: 123-ABC")
     codigo=input("Ingrese el código (-1 finaliza): ").upper()
     cant = len(lst_codigos)
     while codigo != "-1" and cant < 50:
-        if valida_codigo(codigo) and codigo not in lst_codigos:
+        if valida_codigo(codigo, lst_codigos, matriz, rangos) and codigo not in lst_codigos:
             print(f"✓ El sector se ha dado de alta con el código {codigo}.")
             lst_codigos.append(codigo)
             matriz.append([-1 for humedad in range(12)])
@@ -94,4 +88,6 @@ def mostrar_matriz(matriz,sectores,meses):
 
 
         
+        
+
         
