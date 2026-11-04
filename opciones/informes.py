@@ -1,29 +1,36 @@
 import funciones
 
-def llamarFunciones (num,matriz,lst_codigos,tpl_meses, dicc):
+def llamarFunciones (num,matriz,lst_codigos,tpl_meses,rangos):
     if num == 1:
         informe_general_campo(matriz,lst_codigos,tpl_meses)
     if num == 2:
-        informe_sector(matriz,lst_codigos, tpl_meses)
+        informe_sector(matriz,lst_codigos, tpl_meses,rangos)
     if num ==3:
-        informe_mensual(matriz,lst_codigos,tpl_meses)
+        informe_mensual(matriz,lst_codigos,tpl_meses,rangos)
     if num == 4:
-        sectores_atencion(matriz,lst_codigos,tpl_meses)
+        sectores_atencion(matriz,lst_codigos,tpl_meses,rangos)
     if num == 5:
-        ranking_mensual_humedad(matriz,lst_codigos,tpl_meses) 
+       ranking_mensual_humedad(matriz,lst_codigos,tpl_meses,rangos) 
 
     input("\nPresione ENTER para continuar...")
     funciones.SubOpciones(5, matriz, lst_codigos, tpl_meses, dicc)
 
-def determinar_estado(humedad):
-    if humedad <= 29:
-        return "Crítico"
-    elif humedad <= 50:
-        return "Bajo"
-    elif humedad <= 80:
-        return "Adecuado"
+def determinar_estado(humedad,codigo,rangos):
+    med_rangos=[]
+    for rango in rangos:
+        if codigo[4:7].upper()==rango[0:3].upper():
+            med_rangos.append(rango)
+
+    if humedad == -1:
+        print("\n" + "=" * 28)
+        print("No hay medicion registrada")
+        print("=" * 28)
+        return None
     else:
-        return "Excesivo"
+        for med_rango in med_rangos:
+            nombre, estado, minimo, maximo= med_rango.split(',')
+            if humedad>=minimo and humedad<=maximo:
+                return estado
 
 def pedir_mes_valido(tpl_meses):
     mes = int(input("Ingrese el número de mes (1-12): "))
@@ -108,7 +115,7 @@ def informe_general_campo(matriz,lst_codigos,tpl_meses):
 
     print('╚══════════════════════════════════════╝')
 
-def informe_sector(matriz,lst_codigos,tpl_meses):
+def informe_sector(matriz,lst_codigos,tpl_meses,rangos):
     sector = input("Ingrese el sector:").upper()
     while sector not in lst_codigos:
         print ("Error, el sector no esta registrado")
@@ -129,7 +136,7 @@ def informe_sector(matriz,lst_codigos,tpl_meses):
         humedad = fila_sector[c]
         if humedad != -1:  # Si hay medición en este mes
             nombre_mes = tpl_meses[c][1]   
-            estado =determinar_estado(humedad)
+            estado =determinar_estado(humedad,sector,rangos)
             lineas_meses.append(f"{nombre_mes}: {humedad}% ({estado})")
 
     print('\n╔══════════════════════════════════════╗')
@@ -149,7 +156,7 @@ def informe_sector(matriz,lst_codigos,tpl_meses):
 
     print('╚══════════════════════════════════════╝')
 
-def informe_mensual(matriz,lst_codigos,tpl_meses):
+def informe_mensual(matriz,lst_codigos,tpl_meses,rangos):
     indice_mes, nombre_mes = pedir_mes_valido(tpl_meses)
 
     mediciones_mes = []
@@ -160,7 +167,7 @@ def informe_mensual(matriz,lst_codigos,tpl_meses):
         if humedad != -1:
             mediciones_mes.append(humedad)
             id_sector = lst_codigos[f]
-            estado = determinar_estado(humedad)  
+            estado = determinar_estado(humedad,id_sector,rangos)  
             lineas_sectores.append(f"{id_sector}: {humedad}% ({estado})")
     
     if len(mediciones_mes) > 0:
@@ -185,7 +192,7 @@ def informe_mensual(matriz,lst_codigos,tpl_meses):
 
     print('╚══════════════════════════════════════╝')
 
-def sectores_atencion(matriz,lst_codigos,tpl_meses):
+def sectores_atencion(matriz,lst_codigos,tpl_meses,rangos):
     indice_mes, nombre_mes = pedir_mes_valido(tpl_meses)
 
     sectores_criticos = [
@@ -205,13 +212,13 @@ def sectores_atencion(matriz,lst_codigos,tpl_meses):
         print('║ en este mes.                         ║')
     else:
         for id_sector, humedad in sectores_criticos:
-            estado = determinar_estado(humedad)
+            estado = determinar_estado(humedad,id_sector,rangos)
             linea = f"{id_sector}: {humedad}% ({estado})"
             print(f'║  • {linea:<33} ║')
 
     print('╚══════════════════════════════════════╝')
 
-def ranking_mensual_humedad(matriz,lst_codigos,tpl_meses):
+def ranking_mensual_humedad(matriz,lst_codigos,tpl_meses,rangos):
     indice_mes, nombre_mes = pedir_mes_valido(tpl_meses)
     
     datos_ranking = []
@@ -237,7 +244,7 @@ def ranking_mensual_humedad(matriz,lst_codigos,tpl_meses):
         puesto = 1
         for id_sector, humedad in datos_ranking:
             # Reutilizamos tu función mágica para el estado
-            estado = determinar_estado(humedad)
+            estado = determinar_estado(humedad,id_sector,rangos)
             
             # Armamos el texto y lo imprimimos con el formato del cuadro
             linea = f"{id_sector}: {humedad}% ({estado})"
