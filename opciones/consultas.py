@@ -40,23 +40,16 @@ def consultar_mediciones_mes(matriz):
         mes = int(input("Ingrese el numero de mes: "))
     mes -= 1
 
-    resultado = [c[mes] for c in matriz if len(c) > mes]
+    resultado = [c[mes] for c in matriz if len(c) > mes and c[mes] != -1]
     print("\n" + "=" * 90)
-    print(f"Las mediciones del mes numero {mes+1} son de:", end="")
-    for i in resultado:
-        print(i, end="|")
-    print("\n" + "=" * 90)
-
-    if mediciones==True:
-        print("\n" + "=" * 90)
-        print(f"Las mediciones del mes numero {mes+1} son de: ", end="")
+    if resultado:
+        print(f"Las mediciones del mes numero {mes+1} son de:", end="")
         for i in resultado:
             print(i, end="|")
-        print("\n" + "=" * 90)
+        print()
     else:
-        print("\n" + "=" * 90)
-        print('No hay mediciones registradas.')
-        print( "=" * 90)
+        print("No hay mediciones registradas")
+    print("=" * 90)
     
 def consultar_estado_humedad(sectores, matriz):
     sector = input("Ingrese el ID del sector a consultar: ").upper()
