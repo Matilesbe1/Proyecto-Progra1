@@ -9,6 +9,9 @@ def llamarFunciones(num, matriz, lst_codigos,tpl_meses, rangos):
     elif num==3:
         mostrar_matriz(matriz,lst_codigos,tpl_meses)
 
+    input("\nPresione ENTER para continuar...")
+    funciones.SubOpciones(1, matriz, lst_codigos, tpl_meses, rangos)
+
 def valida_codigo(codigo, lst_codigos, matriz, rangos):  #VER RANGOS 
     '''Recibe el codigo ingresado por el usuario.
     Valida que cumpla con el formato establecido y retorna un booleano dependiendo de si es válido o no.'''

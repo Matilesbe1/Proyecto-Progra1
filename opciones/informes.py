@@ -1,6 +1,6 @@
 import funciones
 
-def llamarFunciones (num,matriz,lst_codigos,tpl_meses):
+def llamarFunciones (num,matriz,lst_codigos,tpl_meses, dicc):
     if num == 1:
         informe_general_campo(matriz,lst_codigos,tpl_meses)
     if num == 2:
@@ -10,10 +10,10 @@ def llamarFunciones (num,matriz,lst_codigos,tpl_meses):
     if num == 4:
         sectores_atencion(matriz,lst_codigos,tpl_meses)
     if num == 5:
-       ranking_mensual_humedad(matriz,lst_codigos,tpl_meses) 
+        ranking_mensual_humedad(matriz,lst_codigos,tpl_meses) 
 
     input("\nPresione ENTER para continuar...")
-    funciones.SubOpciones(5, matriz, lst_codigos, tpl_meses)
+    funciones.SubOpciones(5, matriz, lst_codigos, tpl_meses, dicc)
 
 def determinar_estado(humedad):
     if humedad <= 29:

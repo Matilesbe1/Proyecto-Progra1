@@ -1,6 +1,6 @@
 def abrirArchivoRangos():
     try:
-        arch=open('Documentacion/rango_cultivos.csv', mode='rt')
+        arch=aperturaArchivo("./Documentacion/rango_cultivos.csv", "rt")
     except OSError as error:
         print("Error al abrir el archivo:", error)
     except FileNotFoundError:
@@ -16,7 +16,7 @@ def cerrarArchivoRangos(arch):
 
 def abrirArchivoLstCultivos():
     try:
-        arch=open('Documentacion/lista_cultivos.csv', mode='rt')
+        arch=aperturaArchivo("./Documentacion/lista_cultivos.csv", "rt")
     except OSError as error:
         print("Error al abrir el archivo:", error)
     except FileNotFoundError:
@@ -47,26 +47,38 @@ def extraccionMatriz():
     matriz = []
     lst_codigos = []
     file = aperturaArchivo("./Documentacion/mediciones.csv","rt")
+    arch=aperturaArchivo("./Documentacion/lista_cultivos.csv", "rt")
 
     if file is None: # chequea que no haya habido un error en la apertura del archivo
         return None,None
     
+    if arch is None: 
+            return None,None
+    
     line = file.readline()
+    linea=arch.readline()
     while line:
-        codigo,humedades = line.strip().split(";")
+        humedades = line.strip()
+        codigo=linea.strip()
         # como humedades es un string, creo una lista de enteros
         lst_humedades = [int(i) for i in humedades.split(",")] 
+
+        lst_codigos.append(codigo)
 
         lst_codigos.append(codigo)
         matriz.append(lst_humedades)
 
         line = file.readline()
+        linea=file.readline()
     file.close()
+    arch.close()
+
     return matriz,lst_codigos
+
 def pasar_a_dic_cultivos():
     diccionario = {}
     try:
-        archivo = open("Documentacion/rango_cultivos.csv", mode="rt", encoding="utf-8")
+        archivo = aperturaArchivo("./Documentacion/rango_cultivos.csv", "rt")
     except OSError:
         print("Error al abrir el archivo")
     else:
@@ -78,3 +90,18 @@ def pasar_a_dic_cultivos():
             diccionario[cultivo][nivel] = [int(minimo), int(maximo)]
         archivo.close()
         return diccionario
+
+def crear_tupla_meses():
+    try:
+        meses = aperturaArchivo("./Documentacion/meses.csv", "rt")
+    except OSError:
+        print("Error al abrir el archivo")
+    else:
+        tupla = ()
+        linea = meses.readline()
+        while linea:
+            num, mes = linea.strip().split(";")
+            tupla = tupla + ((int(num), mes),)
+            linea = meses.readline()
+        meses.close()
+        return tupla
