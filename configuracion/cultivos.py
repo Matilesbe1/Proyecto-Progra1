@@ -1,35 +1,3 @@
-def abrirArchivoRangos():
-    try:
-        arch=open('Documentacion/rango_cultivos.csv', mode='rt')
-    except OSError as error:
-        print("Error al abrir el archivo:", error)
-    except FileNotFoundError:
-        print("El archivo no existe")
-    else:
-        return arch
-
-def cerrarArchivoRangos(arch):
-    try:
-        arch.close()
-    except OSError:
-        print("Error al cerrar el archivo")
-
-def abrirArchivoLstCultivos():
-    try:
-        arch=open('Documentacion/lista_cultivos.csv', mode='rt')
-    except OSError as error:
-        print("Error al abrir el archivo:", error)
-    except FileNotFoundError:
-        print("El archivo no existe")
-    else:
-        return arch
-
-def cerrarArchivoLstCultivos(arch):
-    try:
-        arch.close()
-    except OSError:
-        print("Error al cerrar el archivo")
-
 def aperturaArchivo(archivo, modo):
     try:
         arch=open(archivo, mode=modo)
@@ -63,6 +31,7 @@ def extraccionMatriz():
         line = file.readline()
     file.close()
     return matriz,lst_codigos
+
 def pasar_a_dic_cultivos():
     diccionario = {}
     try:
@@ -78,3 +47,22 @@ def pasar_a_dic_cultivos():
             diccionario[cultivo][nivel] = [int(minimo), int(maximo)]
         archivo.close()
         return diccionario
+
+def extrer_tpl_meses():
+    '''No recibe parametros.
+    Lee y extrae los datos necesarios para traer a memoria la lista de tuplas de los meses.
+    Retorna una lista de tuplas'''
+    tpl_meses = []
+    file = aperturaArchivo("./Documentacion/meses.csv","rt")
+
+    if file == None:
+        return None
+
+    line = file.readline()
+    while line:
+        nro,mes = line.strip().split(";")
+        tpl_meses.append((nro,mes))
+        line = file.readline()
+    file.close()
+    return tpl_meses
+
