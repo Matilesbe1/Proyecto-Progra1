@@ -1,5 +1,5 @@
 import funciones 
-def llamarFunciones(num, matriz, lst_codigos, tpl_meses):
+def llamarFunciones(num, matriz, lst_codigos, tpl_meses, dicc):
     if num==1:
         promedio_sector(lst_codigos, matriz,tpl_meses)
     elif num==2:
@@ -14,17 +14,9 @@ def llamarFunciones(num, matriz, lst_codigos, tpl_meses):
         contabilizarSectores(matriz, lst_codigos, tpl_meses)
     elif num==7:
         sectoresAtencion(matriz, lst_codigos, tpl_meses)
-    print("\nPresione 0 para continuar, 1 para finalizar...")
-    numero = int(input())
-    while numero > 1 or numero < 0:
-        print("Indique el numero correctamente")
-        numero = int(input("Vuelva a ingresar el numero: "))
-    if numero == 0:
-        funciones.SubOpciones(4, matriz, lst_codigos, tpl_meses)
-        return True
-    else:
-        print("finalizando el programa...")
-        return False
+
+    input("\nPresione ENTER para continuar...")
+    funciones.SubOpciones(4, matriz, lst_codigos, tpl_meses, dicc)
 
 def promedio_sector(sectores, matriz,tpl_meses):
     sector = input("Indique el ID del sector: ").upper()
@@ -93,14 +85,10 @@ def calcularPromedioGeneral(matriz):
 
 def obtenerMayorMedicion(matriz, lst_codigos, tpl_meses):
     max = -1
-    mayores = []
     for i in range(len(matriz)):
         for j in range(len(matriz[i])):
             if matriz[i][j] > max:
                 max = matriz[i][j]
-                mayores = [(i, j)]
-            elif matriz[i][j] == max:
-                mayores.append((i, j))
             else:
                 continue
     if max == -1:
@@ -111,28 +99,22 @@ def obtenerMayorMedicion(matriz, lst_codigos, tpl_meses):
         print("\n" + "=" * 55)
         print("           💧 MAYOR HUMEDAD REGISTRADA")
         print("=" * 55)
-        for i, j in mayores:
-            n, mes = tpl_meses[j]
-            print(f"  Sector : {lst_codigos[i]}")
-            print(f"  Mes    : {mes}")
-            print(f"  Humedad: {max:.2f}%")
-            print("-" * 55)
+        n, mes = tpl_meses[j]
+        print(f"  Sector : {lst_codigos[i]}")
+        print(f"  Mes    : {mes}")
+        print(f"  Humedad: {max:.2f}%")
+        print("-" * 55)
         print("=" * 55)
-
 
 
 def obtenerMenorMedicion(matriz, lst_codigos, tpl_meses):
     min = 500
-    menores = []
     for i in range(len(matriz)):
         for j in range(len(matriz[i])):
             if matriz[i][j] < 0:
                 continue
             if matriz[i][j] < min:
                 min = matriz[i][j]
-                menores = [(i, j)]
-            elif matriz[i][j] == min:
-                menores.append((i, j))
     if min == 500:
         print("\n" + "=" * 55)
         print("           ⚠️  SIN MEDICIONES DISPONIBLES")
@@ -141,12 +123,11 @@ def obtenerMenorMedicion(matriz, lst_codigos, tpl_meses):
         print("\n" + "=" * 55)
         print("           💧 MENOR HUMEDAD REGISTRADA")
         print("=" * 55)
-        for i, j in menores:
-            n, mes = tpl_meses[j]
-            print(f"  Sector : {lst_codigos[i]}")
-            print(f"  Mes    : {mes}")
-            print(f"  Humedad: {min:.2f}%")
-            print("-" * 55)
+        n, mes = tpl_meses[j]
+        print(f"  Sector : {lst_codigos[i]}")
+        print(f"  Mes    : {mes}")
+        print(f"  Humedad: {min:.2f}%")
+        print("-" * 55)
         print("=" * 55)
 
 def contabilizarSectores(matriz, lst_codigos, tpl_meses):
