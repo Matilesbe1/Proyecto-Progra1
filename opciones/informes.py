@@ -13,7 +13,7 @@ def llamarFunciones (num,matriz,lst_codigos,tpl_meses,rangos):
        ranking_mensual_humedad(matriz,lst_codigos,tpl_meses,rangos) 
 
     input("\nPresione ENTER para continuar...")
-    funciones.SubOpciones(5, matriz, lst_codigos, tpl_meses)
+    funciones.SubOpciones(5, matriz, lst_codigos, tpl_meses, dicc)
 
 def determinar_estado(humedad,codigo,rangos):
     med_rangos=[]
