@@ -1,4 +1,5 @@
 import funciones
+import configuracion.cultivos
 
 def llamarFunciones (num,matriz,lst_codigos,tpl_meses,rangos):
     if num == 1:
@@ -13,30 +14,31 @@ def llamarFunciones (num,matriz,lst_codigos,tpl_meses,rangos):
        ranking_mensual_humedad(matriz,lst_codigos,tpl_meses,rangos) 
 
     input("\nPresione ENTER para continuar...")
-    funciones.SubOpciones(5, matriz, lst_codigos, tpl_meses, dicc)
+    funciones.SubOpciones(5, matriz, lst_codigos, tpl_meses, rangos)
 
 def determinar_estado(humedad,codigo,rangos):
-    med_rangos=[]
-    for rango in rangos:
-        if codigo[4:7].upper()==rango[0:3].upper():
-            med_rangos.append(rango)
-
+    cultivo = configuracion.cultivos.obtener_cultivo(codigo, rangos)
+    estado_humedad = None
     if humedad == -1:
         print("\n" + "=" * 28)
         print("No hay medicion registrada")
         print("=" * 28)
-        return None
-    else:
-        for med_rango in med_rangos:
-            nombre, estado, minimo, maximo= med_rango.split(',')
-            if humedad>=minimo and humedad<=maximo:
-                return estado
+    elif cultivo != "":
+        for estado in rangos[cultivo]:
+            minimo, maximo = rangos[cultivo][estado]
+            if minimo <= humedad <= maximo:
+                estado_humedad = estado
+    return estado_humedad
 
 def pedir_mes_valido(tpl_meses):
-    mes = int(input("Ingrese el número de mes (1-12): "))
+    mes = 0
     while mes < 1 or mes > 12:
-        print("Mes inválido. Debe ser entre 1 y 12.")
-        mes = int(input("Ingrese el número de mes (1-12): "))
+        try:
+            mes = int(input("Ingrese el número de mes (1-12): "))
+            if mes < 1 or mes > 12:
+                print("Mes inválido. Debe ser entre 1 y 12.")
+        except ValueError:
+            print("Mes inválido. Ingrese un número entero.")
 
     indice_mes = mes - 1
     nombre_mes = tpl_meses[indice_mes][1]
