@@ -1,4 +1,6 @@
-import funciones 
+import funciones
+import opciones.informes
+import configuracion.cultivos
 def llamarFunciones(num, matriz, lst_codigos, tpl_meses, dicc):
     if num==1:
         promedio_sector(lst_codigos, matriz,tpl_meses)
@@ -11,9 +13,9 @@ def llamarFunciones(num, matriz, lst_codigos, tpl_meses, dicc):
     elif num==5:
         obtenerMenorMedicion(matriz, lst_codigos, tpl_meses)
     elif num==6:
-        contabilizarSectores(matriz, lst_codigos, tpl_meses)
+        contabilizarSectores(matriz, lst_codigos, tpl_meses, dicc)
     elif num==7:
-        sectoresAtencion(matriz, lst_codigos, tpl_meses)
+        sectoresAtencion(matriz, lst_codigos, tpl_meses, dicc)
 
     input("\nPresione ENTER para continuar...")
     funciones.SubOpciones(4, matriz, lst_codigos, tpl_meses, dicc)
@@ -65,7 +67,7 @@ def calcularPromedioGeneral(matriz):
     suma=0
     for i in range (len(matriz)):
         for j in range (len(matriz[i])):
-            if matriz[i][j]<0:
+            if matriz[i][j]==-1:
                 continue
             else:
                 cant+=1
@@ -85,10 +87,14 @@ def calcularPromedioGeneral(matriz):
 
 def obtenerMayorMedicion(matriz, lst_codigos, tpl_meses):
     max = -1
+    indice_sector = -1
+    indice_mes = -1
     for i in range(len(matriz)):
         for j in range(len(matriz[i])):
             if matriz[i][j] > max:
                 max = matriz[i][j]
+                indice_sector = i
+                indice_mes = j
             else:
                 continue
     if max == -1:
@@ -99,8 +105,8 @@ def obtenerMayorMedicion(matriz, lst_codigos, tpl_meses):
         print("\n" + "=" * 55)
         print("           💧 MAYOR HUMEDAD REGISTRADA")
         print("=" * 55)
-        n, mes = tpl_meses[j]
-        print(f"  Sector : {lst_codigos[i]}")
+        n, mes = tpl_meses[indice_mes]
+        print(f"  Sector : {lst_codigos[indice_sector]}")
         print(f"  Mes    : {mes}")
         print(f"  Humedad: {max:.2f}%")
         print("-" * 55)
@@ -109,12 +115,16 @@ def obtenerMayorMedicion(matriz, lst_codigos, tpl_meses):
 
 def obtenerMenorMedicion(matriz, lst_codigos, tpl_meses):
     min = 500
+    indice_sector = -1
+    indice_mes = -1
     for i in range(len(matriz)):
         for j in range(len(matriz[i])):
             if matriz[i][j] < 0:
                 continue
             if matriz[i][j] < min:
                 min = matriz[i][j]
+                indice_sector = i
+                indice_mes = j
     if min == 500:
         print("\n" + "=" * 55)
         print("           ⚠️  SIN MEDICIONES DISPONIBLES")
@@ -123,31 +133,42 @@ def obtenerMenorMedicion(matriz, lst_codigos, tpl_meses):
         print("\n" + "=" * 55)
         print("           💧 MENOR HUMEDAD REGISTRADA")
         print("=" * 55)
-        n, mes = tpl_meses[j]
-        print(f"  Sector : {lst_codigos[i]}")
+        n, mes = tpl_meses[indice_mes]
+        print(f"  Sector : {lst_codigos[indice_sector]}")
         print(f"  Mes    : {mes}")
         print(f"  Humedad: {min:.2f}%")
         print("-" * 55)
         print("=" * 55)
 
-def contabilizarSectores(matriz, lst_codigos, tpl_meses):
-    cant=0
-    for i in range (len(lst_codigos)):
-        cant+=1
+def contabilizarSectores(matriz, lst_codigos, tpl_meses, rangos):
+    indice_mes, nombre_mes = opciones.informes.pedir_mes_valido(tpl_meses)
+    conteo = {"Crítico": 0, "Bajo": 0, "Adecuado": 0, "Excesivo": 0}
+    for i in range(len(lst_codigos)):
+        humedad = matriz[i][indice_mes]
+        if humedad != -1:
+            estado = opciones.informes.determinar_estado(humedad, lst_codigos[i], rangos)
+            if estado in conteo:
+                conteo[estado] += 1
     print("\n" + "=" * 55)
-    print(f"        ✓ {cant} SECTORES CARGADOS")
+    print(f"        SECTORES SEGÚN ESTADO - {nombre_mes}")
+    for estado in conteo:
+        print(f"  {estado}: {conteo[estado]}")
+    if sum(conteo.values()) == 0:
+        print("No hay mediciones disponibles para este mes.")
     print("=" * 55)
 
 
-def sectoresAtencion(matriz, lst_codigos, tpl_meses):
+def sectoresAtencion(matriz, lst_codigos, tpl_meses, rangos):
+    indice_mes, nombre_mes = opciones.informes.pedir_mes_valido(tpl_meses)
+    sectores = [i for i in range(len(lst_codigos))
+                if matriz[i][indice_mes] != -1 and
+                opciones.informes.determinar_estado(matriz[i][indice_mes], lst_codigos[i], rangos) in ("Crítico", "Bajo")]
     print("\n" + "=" * 55)
-    print("       SECTORES QUE REQUIEREN ATENCIÓN")
-    print("=" * 55)
-    for i in range(len(matriz)):
-        for j in range(len(matriz[i])):
-            if matriz[i][j] < 0:
-                continue
-            if matriz[i][j] <= 50:
-                mes = tpl_meses[j][1]
-                print(f"  {lst_codigos[i]:<10} | {mes:<10} | {matriz[i][j]:>6.2f}%")
+    print(f"       SECTORES QUE REQUIEREN ATENCIÓN - {nombre_mes}")
+    if len(sectores) == 0:
+        print("Ningún sector requiere atención en este mes.")
+    for i in sectores:
+        cultivo = configuracion.cultivos.obtener_cultivo(lst_codigos[i], rangos)
+        estado = opciones.informes.determinar_estado(matriz[i][indice_mes], lst_codigos[i], rangos)
+        print(f"  {lst_codigos[i]} | {cultivo} | {matriz[i][indice_mes]}% | {estado}")
     print("=" * 55)

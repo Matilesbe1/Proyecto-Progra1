@@ -1,3 +1,4 @@
+import configuracion.cultivos
 import opciones.informes
 import opciones.analisisHumedad
 import opciones.consultas
@@ -56,7 +57,7 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses, dicc):
         if num==2:
             menuPrincipal(matriz, lst_codigos,tpl_meses, dicc)
         else:
-            opciones.gestionMediciones.cargar_medicion(matriz,lst_codigos,tpl_meses)
+            opciones.gestionMediciones.cargar_medicion(matriz,lst_codigos,tpl_meses, dicc)
 
     elif n == 3:
         print('\n╔══════════════════════════════════════╗')
@@ -84,8 +85,8 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses, dicc):
         print('║  3. Calcular promedio general        ║')
         print('║  4. Obtener mayor medición           ║')
         print('║  5. Obtener menor medición           ║')
-        print('║  6. Contabilizar sectores            ║')
-        print('║  7. Sectores que requieren atención  ║')
+        print('║  6. Contar estados por mes           ║')
+        print('║  7. Atención por mes y cultivo       ║')
         print('║  8. Volver al menú principal         ║')
         print('╚══════════════════════════════════════╝')
         num = int(input('\n Ingrese una opción: '))
@@ -128,4 +129,8 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses, dicc):
         if num==2:
             menuPrincipal(matriz, lst_codigos,tpl_meses, dicc)
         elif num==1:
-            print('¡Gracias!')
+            if configuracion.cultivos.guardarMediciones(matriz, lst_codigos):
+                print('¡Gracias!')
+            else:
+                print('El guardado no se completó. Puede volver a intentar la salida.')
+                menuPrincipal(matriz, lst_codigos, tpl_meses, dicc)

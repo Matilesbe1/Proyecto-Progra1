@@ -38,7 +38,6 @@ def alta_sector(lst_codigos, matriz, tpl_meses, rangos):
         else:
             print("✕ El código ingresado es inválido o está repetido.")
         codigo = input("Ingrese el código (-1 finaliza): ").upper()
-    funciones.SubOpciones(1, matriz, lst_codigos, tpl_meses)
     return None
 
 
@@ -63,7 +62,6 @@ def busca_id(matriz,lst_codigos,tpl_meses):
         while opcion != 0 and opcion != 1:
             print("Opción inválida. Vuelva a intentar")
             opcion = int(input("Ingrese 0 para SI y 1 para NO: "))
-    funciones.SubOpciones(1, matriz, lst_codigos,tpl_meses)
     return None
 
 def mostrar_matriz(matriz,sectores,meses):
@@ -85,7 +83,6 @@ def mostrar_matriz(matriz,sectores,meses):
     print("\nPresione ENTER para continuar...")
     input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
 
-    funciones.SubOpciones(1, matriz, sectores,meses)
     return None
 
 
