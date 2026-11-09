@@ -56,7 +56,7 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses, dicc):
         if num==2:
             menuPrincipal(matriz, lst_codigos,tpl_meses, dicc)
         else:
-            opciones.gestionMediciones.cargar_medicion(matriz,lst_codigos,tpl_meses)
+            opciones.gestionMediciones.cargar_medicion(matriz,lst_codigos,tpl_meses,dicc)
 
     elif n == 3:
         print('\n╔══════════════════════════════════════╗')

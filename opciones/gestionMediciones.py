@@ -45,7 +45,7 @@ def indice_sector_mes(lst_codigos,mes,id_sector):
     i_id = lst_codigos.index(id_sector)
     return i_mes,i_id
 
-def cargar_medicion(matriz,lst_codigos,tpl_meses):
+def cargar_medicion(matriz,lst_codigos,tpl_meses,rangos):
     '''Recibe la matriz, la lista de codigos y la tupla de los meses.
     Se llama a la funcion pide_datos(), con estos llama a valida_id_y_mes() y de ser True, llama a pide_humedad() y luego a indice_sector_mes(). Con esto accede al lugar en la matriz y registra la humedad anteriormente introducida.'''
     id_sector,mes = pide_datos()
@@ -73,7 +73,7 @@ def cargar_medicion(matriz,lst_codigos,tpl_meses):
         if opcion:
             id_sector,mes = pide_datos()
         else:
-            funciones.SubOpciones(2, matriz, lst_codigos,tpl_meses)
+            funciones.SubOpciones(2, matriz, lst_codigos,tpl_meses,rangos)
             
     return None
         
