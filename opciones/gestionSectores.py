@@ -15,7 +15,7 @@ def llamarFunciones(num, matriz, lst_codigos,tpl_meses, rangos):
 def valida_codigo(codigo, lst_codigos, matriz, rangos):  #VER RANGOS 
     '''Recibe el codigo ingresado por el usuario.
     Valida que cumpla con el formato establecido y retorna un booleano dependiendo de si es válido o no.'''
-    patron = r"[0-9]{3}-[A-Z]{3}"
+    patron = r"^[0-9]{3}-[A-Z]{3}$"
     if re.match(patron,codigo):
         for rango in rangos:
             if codigo[4:7].upper()==rango[0:3].upper():

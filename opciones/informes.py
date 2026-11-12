@@ -196,13 +196,19 @@ def informe_mensual(matriz,lst_codigos,tpl_meses,rangos):
 
 def sectores_atencion(matriz,lst_codigos,tpl_meses,rangos):
     indice_mes, nombre_mes = pedir_mes_valido(tpl_meses)
-
-    sectores_criticos = [
-        (lst_codigos[f],matriz[f][indice_mes])
-        for f in range(len(matriz))
-        if matriz[f][indice_mes] !=-1 and matriz[f][indice_mes] <= 50
-    ]
-
+    sectores_criticos=[]
+    for i in range (len(lst_codigos)):
+        meses=matriz[lst_codigos[i]]
+        for rango in rangos:
+            cultivo, nivel, minimo, maximo=rango.split(',')
+            if lst_codigos[i][4:7]==cultivo[0:3].upper():
+                valor=meses[indice_mes]
+                if valor>=minimo and valor<=maximo and nivel=='Bajo' or nivel=='Critico':
+                    sectores_criticos.append(lst_codigos[i], valor)
+                else:
+                    continue
+            else:
+                continue
     print('\n╔══════════════════════════════════════╗')
     print('║      ⚠️ SECTORES EN ATENCIÓN          ║')
     print('╠══════════════════════════════════════╣')
