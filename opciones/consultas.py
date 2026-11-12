@@ -1,4 +1,5 @@
 import funciones
+import opciones.informes
 def llamarfunciones(lst_codigos, matriz, num, tpl_meses, dicc):
     if num == 1:
         consultar_sector(lst_codigos, matriz)
@@ -45,36 +46,33 @@ def consultar_mediciones_mes(matriz):
 
 def consultar_estado_humedad(sectores, matriz, rangos):
     sector = input("Ingrese el ID del sector a consultar: ").upper()
-    med_rangos=[]
     while sector not in sectores:
         print("El sector ingresado no esta dentro de los sectores")
         sector = input("Ingrese el ID del sector a consultar: ").upper()
-    for rango in rangos:
-        if sector[4:7].upper()==rango[0:3].upper():
-            med_rangos.append(rango)
-        else:
-            continue
-    indice=matriz.index(sector)
+    indice = sectores.index(sector)
 
-    mes = int(input("Ingrese el numero de mes: "))
+    mes = 0
     while mes < 1 or mes > 12:
-        print("Indique un mes valido")
-        mes = int(input("Ingrese el numero de mes: "))
+        try:
+            mes = int(input("Ingrese el numero de mes: "))
+            if mes < 1 or mes > 12:
+                print("Indique un mes valido")
+        except ValueError:
+            print("Debe ingresar un numero")
     mes -= 1
 
-    valor = matriz[indice][mes]
-    if valor == -1:
+    if len(matriz[indice]) <= mes or matriz[indice][mes] == -1:
         print("\n" + "=" * 28)
         print("No hay medicion registrada")
         print("=" * 28)
         return None
-    else:
-        for med_rango in med_rangos:
-            nombre, estado, minimo, maximo= med_rango.split(',')
-            if valor>=minimo and valor<=maximo:
-                return estado
-        
-    print("=" * 30)
-    print(f"ESTADO: {estado.upper()}")
-    print("=" * 30)
 
+    valor = matriz[indice][mes]
+    estado = opciones.informes.determinar_estado(valor, sector, rangos)
+    print("\n" + "=" * 30)
+    if estado:
+        print(f"Humedad: {valor}%")
+        print(f"ESTADO: {estado.upper()}")
+    else:
+        print("No se encontró un rango para este sector/valor")
+    print("=" * 30)
