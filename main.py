@@ -19,8 +19,6 @@ main()
 
 """ 
 informes/sectores_atencion --> agarrar los rangos de humedad dependiendo el sector
-Gestion de Sectores --> Mostrar todos los sectores
-Gestion de mediciones --> Actualizar medicion
 Consultas --> Consultar estado de humedad
 AnalisisHumedad --> Contar estados por mes
 AnalisisHumedad --> Atencion por mes y cultivo
