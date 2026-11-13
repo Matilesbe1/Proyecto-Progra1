@@ -1,6 +1,7 @@
 import funciones
 import opciones.informes
 import configuracion.cultivos
+
 def llamarFunciones(num, matriz, lst_codigos, tpl_meses, dicc):
     if num==1:
         promedio_sector(lst_codigos, matriz,tpl_meses)
@@ -143,18 +144,22 @@ def obtenerMenorMedicion(matriz, lst_codigos, tpl_meses):
 def contabilizarSectores(matriz, lst_codigos, tpl_meses, rangos):
     indice_mes, nombre_mes = opciones.informes.pedir_mes_valido(tpl_meses)
     conteo = {"Crítico": 0, "Bajo": 0, "Adecuado": 0, "Excesivo": 0}
+
     for i in range(len(lst_codigos)):
-        humedad = matriz[i][indice_mes]
-        if humedad != -1:
-            estado = opciones.informes.determinar_estado(humedad, lst_codigos[i], rangos)
-            if estado in conteo:
-                conteo[estado] += 1
+        if len(matriz[i]) <= indice_mes or matriz[i][indice_mes] == -1:
+            continue
+        estado = opciones.informes.determinar_estado(matriz[i][indice_mes], lst_codigos[i], rangos)
+        if estado in conteo:
+            conteo[estado] += 1
+
     print("\n" + "=" * 55)
     print(f"        SECTORES SEGÚN ESTADO - {nombre_mes}")
-    for estado in conteo:
-        print(f"  {estado}: {conteo[estado]}")
+    print("=" * 55)
     if sum(conteo.values()) == 0:
         print("No hay mediciones disponibles para este mes.")
+    else:
+        for estado, cantidad in conteo.items():
+            print(f"  {estado}: {cantidad}")
     print("=" * 55)
 
 
