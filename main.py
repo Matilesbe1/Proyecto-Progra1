@@ -16,13 +16,3 @@ def main():
             funciones.menuPrincipal(matriz, lst_codigos, tpl_meses, dicc)
 main()
 
-
-""" 
-informes/sectores_atencion --> agarrar los rangos de humedad dependiendo el sector
-Consultas --> Consultar estado de humedad
-AnalisisHumedad --> Contar estados por mes
-AnalisisHumedad --> Atencion por mes y cultivo
-Informes --> Informe de un sector e informe mensual (error en la palabra Critico)
-Informes --> Sectores que requieren atencion
-
-"""
