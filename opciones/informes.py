@@ -26,7 +26,7 @@ def determinar_estado(humedad,codigo,rangos):
     elif cultivo != "":
         for estado in rangos[cultivo]:
             minimo, maximo = rangos[cultivo][estado]
-            if minimo <= humedad <= maximo:
+            if minimo <= humedad and humedad<= maximo:
                 estado_humedad = estado
     return estado_humedad
 
@@ -196,13 +196,23 @@ def informe_mensual(matriz,lst_codigos,tpl_meses,rangos):
 
 def sectores_atencion(matriz,lst_codigos,tpl_meses,rangos):
     indice_mes, nombre_mes = pedir_mes_valido(tpl_meses)
-
-    sectores_criticos = [
-        (lst_codigos[f],matriz[f][indice_mes])
-        for f in range(len(matriz))
-        if matriz[f][indice_mes] !=-1 and matriz[f][indice_mes] <= 50
-    ]
-
+    sectores_criticos=[]
+    for i in range (len(lst_codigos)):
+        meses=matriz[i]
+        cultivo = lst_codigos[i][4:7]
+        for nombre_cultivo in rangos:
+            if cultivo == nombre_cultivo[0:3].upper():
+                valor = meses[indice_mes]
+                for nivel in rangos[nombre_cultivo]:
+                    minimo, maximo = rangos[nombre_cultivo][nivel]
+                    if valor >= minimo and valor <= maximo and (nivel == 'Bajo' or nivel == 'Critico'):
+                        print('entra')
+                        print(lst_codigos[i], valor)
+                        sectores_criticos.append((lst_codigos[i], valor))
+                    else:
+                        continue
+            else:
+                continue
     print('\n╔══════════════════════════════════════╗')
     print('║      ⚠️ SECTORES EN ATENCIÓN          ║')
     print('╠══════════════════════════════════════╣')

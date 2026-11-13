@@ -162,13 +162,14 @@ def sectoresAtencion(matriz, lst_codigos, tpl_meses, rangos):
     indice_mes, nombre_mes = opciones.informes.pedir_mes_valido(tpl_meses)
     sectores = [i for i in range(len(lst_codigos))
                 if matriz[i][indice_mes] != -1 and
-                opciones.informes.determinar_estado(matriz[i][indice_mes], lst_codigos[i], rangos) in ("Crítico", "Bajo")]
+                opciones.informes.determinar_estado(matriz[i][indice_mes], lst_codigos[i], rangos) in ("Critico", "Bajo")]
     print("\n" + "=" * 55)
-    print(f"       SECTORES QUE REQUIEREN ATENCIÓN - {nombre_mes}")
     if len(sectores) == 0:
-        print("Ningún sector requiere atención en este mes.")
-    for i in sectores:
-        cultivo = configuracion.cultivos.obtener_cultivo(lst_codigos[i], rangos)
-        estado = opciones.informes.determinar_estado(matriz[i][indice_mes], lst_codigos[i], rangos)
-        print(f"  {lst_codigos[i]} | {cultivo} | {matriz[i][indice_mes]}% | {estado}")
+        print(f'{" NINGUN SECTOR REQUIERE ATENCIÓN ":=^55}')  
+    else:
+        print(f"       SECTORES QUE REQUIEREN ATENCIÓN - {nombre_mes}")
+        for i in sectores:
+            cultivo = configuracion.cultivos.obtener_cultivo(lst_codigos[i], rangos)
+            estado = opciones.informes.determinar_estado(matriz[i][indice_mes], lst_codigos[i], rangos)
+            print(f"  {lst_codigos[i]} | {cultivo} | {matriz[i][indice_mes]}% | {estado}")
     print("=" * 55)

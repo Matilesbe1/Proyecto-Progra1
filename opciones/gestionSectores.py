@@ -15,7 +15,7 @@ def llamarFunciones(num, matriz, lst_codigos,tpl_meses, rangos):
 def valida_codigo(codigo, lst_codigos, matriz, rangos):  #VER RANGOS 
     '''Recibe el codigo ingresado por el usuario.
     Valida que cumpla con el formato establecido y retorna un booleano dependiendo de si es válido o no.'''
-    patron = r"[0-9]{3}-[A-Z]{3}"
+    patron = r"^[0-9]{3}-[A-Z]{3}$"
     if re.match(patron,codigo):
         for rango in rangos:
             if codigo[4:7].upper()==rango[0:3].upper():
@@ -68,21 +68,20 @@ def mostrar_matriz(matriz,sectores,meses):
     '''Recibe como parametros la matriz, la lista de codigos y la tupla de meses.
     Muestra la matriz junto con los sectores y los meses, todo con formato y representado de forma mas visual.
     Retorna None.'''
-    print(f"{"-"*22} PORCENTAJES DE HÚMEDAD SECTOR/MES {"-"*22}")
-    print(" "*7,end= " ")
-    for numero,mes in meses:
-        print("%5s"%mes,end=" ")
-    print()
-    for f in range(len(matriz)):
-        print(sectores[f], end=" ")
-        for c in range(len(matriz[0])):
-            print("%5d" %matriz[f][c],end=" ")
+    if len(matriz)==0:
+            print(f'{" NO HAY MEDICIONES REGISTRADAS ":=^80}')
+    else:
+        print(f"{"-"*22} PORCENTAJES DE HÚMEDAD SECTOR/MES {"-"*22}")
+        print(" "*7,end= " ")
+        for numero,mes in meses:
+            print("%10s"%mes,end=" ")
         print()
-    print("-"*80)
-
-    print("\nPresione ENTER para continuar...")
-    input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
-
+        for f in range(len(matriz)):
+            print(sectores[f], end=" ")
+            for c in range(len(matriz[0])):
+                print("%10d" %matriz[f][c],end=" ")
+            print()
+        print("-"*80)
     return None
 
 
