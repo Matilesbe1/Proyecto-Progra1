@@ -25,8 +25,9 @@ def valida_codigo(codigo, lst_codigos, matriz, rangos):  #VER RANGOS
 
 
 def alta_sector(lst_codigos, matriz, tpl_meses, rangos):
-    print("IMPORTANTE: El código debe estar compuesto por tres números, un guión y tres letras.")
-    print("Por ejemplo: 123-ABC")
+    print("IMPORTANTE: El código debe estar compuesto por tres números, un guión y tres letras pertenecientes al cultivo correspondiente.")
+    print("*GUIA*: Soja --> SOJ ; Trigo --> TRI ; Papa --> PAP ; Zanahoria --> ZAN ; Batata --> BAT")
+    print("Por ejemplo: 123-PAP")
     codigo=input("Ingrese el código (-1 finaliza): ").upper()
     cant = len(lst_codigos)
     while codigo != "-1" and cant < 50:
@@ -46,7 +47,8 @@ def busca_id(matriz,lst_codigos,tpl_meses):
     Pide al usuario que ingrese un ID a buscar. 
     Informa al usuario si el ID buscado se encuentra registrado. Permite realizar más de una búsqueda.
     Retorna None'''
-    print("Recuerde que los IDs tienen el siguiente formato: 123-ABC")
+    print("Recuerde que los IDs tienen el siguiente formato: 123-PAP")
+    print("*GUIA*: Soja --> SOJ ; Trigo --> TRI ; Papa --> PAP ; Zanahoria --> ZAN ; Batata --> BAT")
     opcion = 0
     while opcion == 0:
         id_buscado = input("Ingrese el ID del sector que quiere buscar: ").upper()
