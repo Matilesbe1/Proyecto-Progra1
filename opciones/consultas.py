@@ -12,6 +12,7 @@ def llamarfunciones(lst_codigos, matriz, num, tpl_meses, dicc):
     funciones.SubOpciones(3, matriz, lst_codigos, tpl_meses, dicc)
     
 def consultar_sector(sectores, matriz):
+    print("*GUIA*: Soja --> SOJ ; Trigo --> TRI ; Papa --> PAP ; Zanahoria --> ZAN ; Batata --> BAT")
     sector = input("Ingrese el ID del sector a consultar: ").upper()
     while sector not in sectores:
         print("El sector ingresado no esta dentro de los sectores")
@@ -45,6 +46,7 @@ def consultar_mediciones_mes(matriz):
         print( "=" * 90)
 
 def consultar_estado_humedad(sectores, matriz, rangos):
+    print("*GUIA*: Soja --> SOJ ; Trigo --> TRI ; Papa --> PAP ; Zanahoria --> ZAN ; Batata --> BAT")
     sector = input("Ingrese el ID del sector a consultar: ").upper()
     while sector not in sectores:
         print("El sector ingresado no esta dentro de los sectores")

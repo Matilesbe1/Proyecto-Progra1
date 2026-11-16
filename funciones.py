@@ -5,6 +5,16 @@ import opciones.consultas
 import opciones.gestionMediciones
 import opciones.gestionSectores
 
+def pide_opcion(minimo,maximo):
+    while True:
+        try:
+            op = int(input(f"Ingrese una opción (entre {minimo}-{maximo}): "))
+            if op > maximo or op < minimo:
+                print(f"ERROR. Ingrese una opción entre {minimo}-{maximo}.")
+            else:
+                return op
+        except ValueError:
+            print("ERROR. Ha ingresado un valor inválido. Intente nuevamente.")
 
 
 def menuPrincipal(matriz, lst_codigos,tpl_meses, dicc):
@@ -20,9 +30,7 @@ def menuPrincipal(matriz, lst_codigos,tpl_meses, dicc):
     print('║  6. Salir                            ║')
     print('╚══════════════════════════════════════╝')
 
-    n = int(input('\n Ingrese una opción: '))
-    while n>6 or n<1:
-        n=int(input('ingrese una opcion valida: '))
+    n = pide_opcion(1,6)
     SubOpciones(n, matriz, lst_codigos,tpl_meses, dicc)
     
 
@@ -36,9 +44,8 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses, dicc):
         print('║  3. Mostrar todos los sectores       ║')
         print('║  4. Volver al menú principal         ║')
         print('╚══════════════════════════════════════╝')
-        num = int(input('\n Ingrese una opción: '))
-        while num>4 or num<1:
-            num=int(input('ingrese una opcion valida: '))
+        
+        num = pide_opcion(1,4)
         if num==4:
             menuPrincipal(matriz, lst_codigos,tpl_meses, dicc)
         else:
@@ -51,9 +58,7 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses, dicc):
         print('║  1. Cargar / actualizar medición     ║')
         print('║  2. Volver al menú principal         ║')
         print('╚══════════════════════════════════════╝')
-        num = int(input('\n Ingrese una opción: '))
-        while num>2 or num<1:
-            num=int(input('ingrese una opcion valida: '))
+        num = pide_opcion(1,2)
         if num==2:
             menuPrincipal(matriz, lst_codigos,tpl_meses, dicc)
         else:
@@ -68,9 +73,7 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses, dicc):
         print('║  3. Consultar estado de humedad      ║')
         print('║  4. Volver al menú principal         ║')
         print('╚══════════════════════════════════════╝')
-        num = int(input('\n Ingrese una opción: '))
-        while num>4 or num<1:
-            num=int(input('ingrese una opcion valida: '))  
+        num = pide_opcion(1,4) 
         if num==4:
             menuPrincipal(matriz, lst_codigos,tpl_meses, dicc)
         else:
@@ -89,9 +92,7 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses, dicc):
         print('║  7. Atención por mes y cultivo       ║')
         print('║  8. Volver al menú principal         ║')
         print('╚══════════════════════════════════════╝')
-        num = int(input('\n Ingrese una opción: '))
-        while num>8 or num<1:
-            num=int(input('ingrese una opcion valida: '))
+        num = pide_opcion(1,8)
         if num==8:
             menuPrincipal(matriz, lst_codigos,tpl_meses, dicc)
         else:
@@ -108,9 +109,7 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses, dicc):
         print('║  5. Ranking mensual de humedad       ║')
         print('║  6. Volver al menú principal         ║')
         print('╚══════════════════════════════════════╝')
-        num = int(input('\n Ingrese una opción: '))
-        while num>6 or num<1:
-            num=int(input('ingrese una opcion valida: '))
+        num = pide_opcion(1,6)
         if num==6:
             menuPrincipal(matriz, lst_codigos,tpl_meses, dicc)
         else:
@@ -123,9 +122,7 @@ def SubOpciones(n, matriz, lst_codigos,tpl_meses, dicc):
         print('║  1. Confirmar salida                 ║')
         print('║  2. Volver al menú principal         ║')
         print('╚══════════════════════════════════════╝')
-        num = int(input('\n Ingrese una opción: '))
-        while num>2 or num<1:
-            num=int(input('ingrese una opcion valida: '))
+        num = pide_opcion(1,2)
         if num==2:
             menuPrincipal(matriz, lst_codigos,tpl_meses, dicc)
         elif num==1:

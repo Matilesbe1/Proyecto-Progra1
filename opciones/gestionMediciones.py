@@ -69,6 +69,7 @@ def cargar_medicion(matriz,lst_codigos,tpl_meses, dicc=None):
             else:
                 print(" ✕ Ha ingresado un sector o mes inválido.")
                 print("Recuerde que el formato del sector es 123-PAP y los meses van de 1 a 12.")
+                print("*GUIA*: Soja --> SOJ ; Trigo --> TRI ; Papa --> PAP ; Zanahoria --> ZAN ; Batata --> BAT")
                 print("\nPresione ENTER para continuar...")
                 input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
             print("-"*10)
