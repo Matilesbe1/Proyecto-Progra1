@@ -190,7 +190,7 @@ Gestión de mediciones.\
 Consultas.\
 Análisis de humedad.\
 Informes.\
-Salida del sistema.\
+Salida del sistema
 
 Se realizarán validaciones para evitar que datos incorrectos provoquen la finalización del programa.
 
@@ -200,8 +200,8 @@ Ante cualquier dato inválido, el sistema mostrará un mensaje indicando el erro
 
 El sistema utilizará únicamente dos excepciones estándar de Python:
 
-ValueError: se utilizará ante cualquier dato inválido, ya sea ingresado por el usuario o leído desde un archivo. Incluye: ID con formato incorrecto, sector duplicado o inexistente, límite de sectores alcanzado, cultivo inválido, mes inválido, porcentaje vacío, no numérico o fuera de 0–100, credenciales incorrectas, y filas de los CSV con datos inválidos (la fila se ignora y se informa). Cada caso se diferencia por el mensaje que se muestra al usuario.
-OSError: se utilizará ante cualquier problema con los archivos CSV. Incluye los casos de archivo inexistente (FileNotFoundError) y falta de permisos (PermissionError), que son subclases de OSError. Si falta usuarios.csv o rangos.csv, se crean con valores iniciales. Si falta mediciones.csv, el sistema inicia sin sectores. Ante un error de escritura, se informa al usuario.
+* ValueError: se utilizará ante cualquier dato inválido, ya sea ingresado por el usuario o leído desde un archivo. Incluye: ID con formato incorrecto, sector duplicado o inexistente, límite de sectores alcanzado, cultivo inválido, mes inválido, porcentaje vacío, no numérico o fuera de 0–100, credenciales incorrectas, y filas de los CSV con datos inválidos (la fila se ignora y se informa). Cada caso se diferencia por el mensaje que se muestra al usuario.\
+* OSError: se utilizará ante cualquier problema con los archivos CSV. Incluye los casos de archivo inexistente (FileNotFoundError) y falta de permisos (PermissionError), que son subclases de OSError. Si falta usuarios.csv o rangos.csv, se crean con valores iniciales. Si falta mediciones.csv, el sistema inicia sin sectores. Ante un error de escritura, se informa al usuario.
 
 Todos los errores se informarán con un mensaje claro y el programa continuará en funcionamiento, salvo el agotamiento de los 3 intentos de login.
 
@@ -215,10 +215,10 @@ La matriz permitirá relacionar cada sector con sus mediciones mensuales y será
 
 El sistema utilizará tres archivos CSV, leídos y escritos con el módulo csv:
 
-Archivo	Columnas	Contenido
-usuarios.csv	usuario, clave_hash, nombre	Usuarios habilitados. 
-rangos.csv	cultivo, estado, minimo, maximo	Rangos de humedad de cada cultivo (una fila por cultivo y estado).
-mediciones.csv	id, cultivo, Ene, Feb, ..., Dic	Una fila por sector, con su cultivo y las 12 mediciones (-1 si no hay medición).
+**Archivo**	      |     **Columnas**          |       **Contenido** .\
+login.csv   -         *usuario, clave*       -    datos de usuario .\
+rangos.csv  - *cultivo, estado, minimo, maximo* -	Rangos de humedad de cada cultivo (una fila por cultivo y estado).\
+mediciones.csv - *id, cultivo, Ene, Feb, ..., Dic* - 	Una fila por sector, con su cultivo y las 12 mediciones (-1 si no hay medición).
 
 ### Momento de lectura y escritura:
 
@@ -275,13 +275,3 @@ Volver al menú principal.
 ### 6. Salir
 Confirmar salida (guarda las mediciones en mediciones.csv).
 Volver al menú principal.
-
-
-
-
-
-# VER (correccion de la profe)
- 
-Validación del porcentaje: no hace falta usar expresión regular para validar humedad 0–100. Conviene convertir a entero, controlar ValueError y luego validar el rango.  
- 
-CSV → estructuras: falta indicar claramente que al leer mediciones.csv se reconstruyen la lista de IDs, la lista de cultivos y la matriz de mediciones.

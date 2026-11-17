@@ -22,21 +22,35 @@ def pide_datos():
     '''No recibe parámetros.
     Pide al usuario que ingrese el ID y el mes a acceder.
     Retorna estos dos valores.'''
-    print("Recuerde el formato de los IDs: 123-ABC.")
-    id_sector = input("Ingrese el ID del sector al que quiere acceder: ").upper()
-    print("Ahora, ingresará el mes a actualizar.\nEstos van de 1 a 12, siendo 1 --> Enero y 12 --> Diciembre")
-    mes = int(input("Ingrese el mes (1-12): "))
-    return id_sector,mes
+    while True:
+        try:
+            print("Recuerde el formato de los IDs: 123-SOJ.")
+            print("*GUIA*: Soja --> SOJ ; Trigo --> TRI ; Papa --> PAP ; Zanahoria --> ZAN ; Batata --> BAT")
+            id_sector = input("Ingrese el ID del sector al que quiere acceder: ").upper()
+            print("Ahora, ingresará el mes a actualizar.\nEstos van de 1 a 12, siendo 1 --> Enero y 12 --> Diciembre")
+            mes = int(input("Ingrese el mes (1-12): "))
+            return id_sector,mes
+        except ValueError:
+            print("Ha ingresado datos inválidos. Intente nuevamente.")
+            print("\nPresione ENTER para continuar...")
+            input()
 
 def pide_humedad():
     '''No recibe parámetros. 
     Pide al usuario que ingrese la humedad a registrar y valida que este entre 0 y 100.
     Retorna la humedad introducida.'''
-    valor = int(input("Ingrese el porcentaje de humedad que quiere agregar (0-100%): "))
-    while valor < 0 or valor > 100:
-        print("Error. La humedad debe estar entre 0 y 100%")
-        valor = int(input("Intene nuevamente: "))
-    return valor
+    while True:
+        try:
+
+            valor = int(input("Ingrese el porcentaje de humedad que quiere agregar (0-100%): "))
+            while valor < 0 or valor > 100:
+                print("Error. La humedad debe estar entre 0 y 100%")
+                valor = int(input("Intene nuevamente: "))
+            return valor
+        except ValueError:
+            print("Ha ingresado datos inválidos. Intente nuevamente.")
+            print("\nPresione ENTER para continuar...")
+            input()
 
 def indice_sector_mes(lst_codigos,mes,id_sector):
     '''Recibe como parámetros ls lista de los códigos, la tupla de meses y el mes e ID ingresado por el usuario.
