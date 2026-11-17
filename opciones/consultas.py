@@ -13,10 +13,12 @@ def llamarfunciones(lst_codigos, matriz, num, tpl_meses, dicc):
     
 def consultar_sector(sectores, matriz):
     print("*GUIA*: Soja --> SOJ ; Trigo --> TRI ; Papa --> PAP ; Zanahoria --> ZAN ; Batata --> BAT")
-    sector = input("Ingrese el ID del sector a consultar: ").upper()
+    sector = input("Ingrese el ID del sector a consultar (-1 para finalizar): ").upper()
     while sector not in sectores:
+        if sector == "-1":
+            return None
         print("El sector ingresado no esta dentro de los sectores")
-        sector = input("Ingrese el ID del sector a consultar: ").upper()
+        sector = input("Ingrese el ID del sector a consultar (-1 para finalizar): ").upper()
 
     indice = sectores.index(sector)
     resultado = [c for c in matriz[indice]]
@@ -54,10 +56,12 @@ def consultar_mediciones_mes(matriz):
 
 def consultar_estado_humedad(sectores, matriz, rangos):
     print("*GUIA*: Soja --> SOJ ; Trigo --> TRI ; Papa --> PAP ; Zanahoria --> ZAN ; Batata --> BAT")
-    sector = input("Ingrese el ID del sector a consultar: ").upper()
+    sector = input("Ingrese el ID del sector a consultar (-1 para finalizar): ").upper()
     while sector not in sectores:
+        if sector == "-1":
+            return None
         print("El sector ingresado no esta dentro de los sectores")
-        sector = input("Ingrese el ID del sector a consultar: ").upper()
+        sector = input("Ingrese el ID del sector a consultar (-1 para finalizar): ").upper()
     indice = sectores.index(sector)
 
     mes = 0

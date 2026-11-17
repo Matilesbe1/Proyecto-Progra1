@@ -119,10 +119,12 @@ def informe_general_campo(matriz,lst_codigos,tpl_meses):
 
 def informe_sector(matriz,lst_codigos,tpl_meses,rangos):
     print("*GUIA*: Soja --> SOJ ; Trigo --> TRI ; Papa --> PAP ; Zanahoria --> ZAN ; Batata --> BAT")
-    sector = input("Ingrese el sector: ").upper()
+    sector = input("Ingrese el sector (-1 para finalizar): ").upper()
     while sector not in lst_codigos:
+        if sector == "-1":
+            return None
         print ("Error, el sector no esta registrado")
-        sector = input ("Ingrese el sector: ").upper()
+        sector = input ("Ingrese el sector (-1 para finalizar): ").upper()
 
     indice_sector = lst_codigos.index(sector)
     fila_sector = matriz[indice_sector]
@@ -207,8 +209,6 @@ def sectores_atencion(matriz,lst_codigos,tpl_meses,rangos):
                 for nivel in rangos[nombre_cultivo]:
                     minimo, maximo = rangos[nombre_cultivo][nivel]
                     if valor >= minimo and valor <= maximo and (nivel == 'Bajo' or nivel == 'Critico'):
-                        print('entra')
-                        print(lst_codigos[i], valor)
                         sectores_criticos.append((lst_codigos[i], valor))
                     else:
                         continue

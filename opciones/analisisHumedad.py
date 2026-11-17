@@ -23,10 +23,12 @@ def llamarFunciones(num, matriz, lst_codigos, tpl_meses, dicc):
 
 def promedio_sector(sectores, matriz,tpl_meses):
     print("*GUIA*: Soja --> SOJ ; Trigo --> TRI ; Papa --> PAP ; Zanahoria --> ZAN ; Batata --> BAT")
-    sector = input("Indique el ID del sector: ").upper()
+    sector = input("Indique el ID del sector (-1 para finalizar): ").upper()
     while sector not in sectores:
-        print("No es un sector valido")
-        sector = input("Indique el ID del sector: ").upper()
+        if sector == "-1":
+            return None
+        print("No se encuentra el sector ingresado")
+        sector = input("Indique el ID del sector (-1 para finalizar): ").upper()
 
     indice = sectores.index(sector)
     mediciones = [c for c in matriz[indice] if c != -1]

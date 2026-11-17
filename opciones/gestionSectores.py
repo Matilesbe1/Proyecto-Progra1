@@ -47,24 +47,28 @@ def busca_id(matriz,lst_codigos,tpl_meses):
     Pide al usuario que ingrese un ID a buscar. 
     Informa al usuario si el ID buscado se encuentra registrado. Permite realizar más de una búsqueda.
     Retorna None'''
-    print("Recuerde que los IDs tienen el siguiente formato: 123-PAP")
-    print("*GUIA*: Soja --> SOJ ; Trigo --> TRI ; Papa --> PAP ; Zanahoria --> ZAN ; Batata --> BAT")
-    opcion = 0
-    while opcion == 0:
-        id_buscado = input("Ingrese el ID del sector que quiere buscar: ").upper()
-        if id_buscado in lst_codigos:
-            print(f"✓ El sector con ID {id_buscado} se encuentra registrado en el sistema.")
+    try:
+        print("Recuerde que los IDs tienen el siguiente formato: 123-PAP")
+        print("*GUIA*: Soja --> SOJ ; Trigo --> TRI ; Papa --> PAP ; Zanahoria --> ZAN ; Batata --> BAT")
+        opcion = 0
+        while opcion == 0:
+            id_buscado = input("Ingrese el ID del sector que quiere buscar: ").upper()
+            if id_buscado in lst_codigos:
+                print(f"✓ El sector con ID {id_buscado} se encuentra registrado en el sistema.")
 
-            print("\nPresione ENTER para continuar...")
-            input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
-        else:
-            print(f"✕ No se econtró ningún sector con el ID: {id_buscado}")
-        print("Desea realizar una nueva busqueda?: ")
-        opcion = int(input("Ingrese 0 para SI y 1 para NO: "))
-        while opcion != 0 and opcion != 1:
-            print("Opción inválida. Vuelva a intentar")
+                print("\nPresione ENTER para continuar...")
+                input() # Esto hace una pausa para que el usuario pueda leer el resultado antes de limpiar la pantalla
+            else:
+                print(f"✕ No se econtró ningún sector con el ID: {id_buscado}")
+            print("Desea realizar una nueva busqueda?: ")
             opcion = int(input("Ingrese 0 para SI y 1 para NO: "))
-    return None
+            while opcion != 0 and opcion != 1:
+                print("Opción inválida. Vuelva a intentar")
+                opcion = int(input("Ingrese 0 para SI y 1 para NO: "))
+        return None
+    except ValueError:
+        print("ERROR. Ha ingresado un valor inválido. Intente nuevamente.")
+        return None
 
 def mostrar_matriz(matriz,sectores,meses):
     '''Recibe como parametros la matriz, la lista de codigos y la tupla de meses.
