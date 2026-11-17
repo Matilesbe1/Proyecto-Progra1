@@ -118,10 +118,11 @@ def informe_general_campo(matriz,lst_codigos,tpl_meses):
     print('╚══════════════════════════════════════╝')
 
 def informe_sector(matriz,lst_codigos,tpl_meses,rangos):
-    sector = input("Ingrese el sector:").upper()
+    print("*GUIA*: Soja --> SOJ ; Trigo --> TRI ; Papa --> PAP ; Zanahoria --> ZAN ; Batata --> BAT")
+    sector = input("Ingrese el sector: ").upper()
     while sector not in lst_codigos:
         print ("Error, el sector no esta registrado")
-        sector = input ("Ingrese el sector").upper()
+        sector = input ("Ingrese el sector: ").upper()
 
     indice_sector = lst_codigos.index(sector)
     fila_sector = matriz[indice_sector]

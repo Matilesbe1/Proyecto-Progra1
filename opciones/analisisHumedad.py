@@ -44,11 +44,18 @@ def promedio_sector(sectores, matriz,tpl_meses):
 
     
 def promedio_mes(matriz,tpl_meses):
-    mes = int(input("Indique el numero de mes: "))
-    while mes < 1 or mes > 12:
-        print("Ingrese un numero valido")
-        mes = int(input("Indique el numero de mes: "))
-    mes -= 1 
+    while True:
+        try:
+            mes = int(input("Ingrese el numero de mes: "))
+            while mes < 1 or mes > 12:
+                print("Indique un mes valido")
+                mes = int(input("Ingrese el numero de mes: "))
+            break
+        except ValueError:
+            print("\n Ha ingresado datos inválidos. Intente nuevamente.")
+            print("Presione ENTER para continuar...")
+            input()
+    mes -= 1
 
     mediciones = [c[mes] for c in matriz if len(c) > mes and c[mes] != -1]
     cantidad = len(mediciones)
